@@ -1,25 +1,30 @@
-# main.py
 from antlr4 import FileStream, CommonTokenStream
 from lcLexer import lcLexer
 from lcParser import lcParser
-from load_data import load_csv_files
+from lcVisitor import lcVisitor
+from load_data import load_csv_file
+import os
 
+
+# Cargar los DataFrames desde los archivos CSV
+countries = load_csv_file("countries.csv")
+departments = load_csv_file("departments.csv")
+dependents = load_csv_file("dependents.csv")
+employees = load_csv_file("employees.csv")
+jobs = load_csv_file("jobs.csv")
+locations = load_csv_file("locations.csv")
+regions = load_csv_file("regions.csv")
+
+# Función principal
 def main():
-    # Directorio que contiene los archivos CSV (subcarpeta 'db')
-    csv_directory = "db"
-
-    # Llamar a la función para cargar los datos desde load_data.py
-    database_df = load_csv_files()
-
-    # Imprimir el DataFrame combinado
-    print(database_df)
-
-    # Cambia el nombre del archivo SQL según tu estructura
+       # Ingresar la consulta directamente en el script
     sql_file = "query.sql"
 
-    # Combinar el directorio y el nombre del archivo SQL
-    sql_filepath = os.path.join(csv_directory, sql_file)
-
+    # Imprimir la consulta
+    #print("Consulta ingresada:", sql_query)
+    
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    sql_filepath = os.path.join(script_dir, sql_file)
     # Analizar la consulta SQL desde el archivo
     input_stream = FileStream(sql_filepath)
     lexer = lcLexer(input_stream)
@@ -27,8 +32,17 @@ def main():
     parser = lcParser(token_stream)
     tree = parser.query()
 
-    # Imprimir el árbol de análisis sintáctico (opcional)
-    print(tree.toStringTree(recog=parser))
+    # Crear un objeto Visitor y visitar el árbol
+    visitor = lcVisitor({
+        'countries': countries,
+        'departments': departments,
+        'dependents': dependents,
+        'employees': employees,
+        'jobs': jobs,
+        'locations': locations,
+        'regions': regions
+    })
+    visitor.visit(tree)
 
 if __name__ == '__main__':
     main()
