@@ -6,6 +6,8 @@ from load_data import load_csv_file
 import pandas as pd
 import streamlit as st
 import os
+from lcArbre import lcArbre
+
 
 
 # Cargar los DataFrames desde los archivos CSV
@@ -35,7 +37,7 @@ def main():
     tree = parser.query()
 
     # Crear un objeto Visitor y visitar el árbol
-    visitor = lcVisitor({
+    arbol = lcArbre({
         'countries': countries,
         'departments': departments,
         'dependents': dependents,
@@ -44,7 +46,9 @@ def main():
         'locations': locations,
         'regions': regions
     })
-    visitor.visit(tree)
+    arbol.visit(tree)
+
+    arbol.printResult()
 
 if __name__ == '__main__':
     main()

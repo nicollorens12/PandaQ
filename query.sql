@@ -1,1 +1,1 @@
-SELECT * FROM countries;
+SELECT country_id,country_name FROM countries;

@@ -8,19 +8,9 @@ else:
 # This class defines a complete generic visitor for a parse tree produced by lcParser.
 
 class lcVisitor(ParseTreeVisitor):
-    
-    def __init__(self, dataframes):
-        self.dataframes = dataframes
-        self.current_dataframe = None
-        counter = 0
-        for dataframe in dataframes:
-            counter = counter+1
-            print(counter)
-            
 
     # Visit a parse tree produced by lcParser#query.
-    def visitQuery(self, ctx:lcParser.QueryContext): 
-        print("si")
+    def visitQuery(self, ctx:lcParser.QueryContext):
         return self.visitChildren(ctx)
 
 
