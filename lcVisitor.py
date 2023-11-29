@@ -19,6 +19,16 @@ class lcVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by lcParser#selectItem.
+    def visitSelectItem(self, ctx:lcParser.SelectItemContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#expression.
+    def visitExpression(self, ctx:lcParser.ExpressionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by lcParser#columnNameList.
     def visitColumnNameList(self, ctx:lcParser.ColumnNameListContext):
         return self.visitChildren(ctx)
