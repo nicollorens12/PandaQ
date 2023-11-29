@@ -47,3 +47,6 @@ class lcArbre(ParseTreeVisitor):
             print(self.resultado.to_string(index=False))
         else:
             print("No hay resultado para imprimir.")
+    
+    def get_result(self):
+        return self.resultado

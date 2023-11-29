@@ -21,34 +21,46 @@ regions = load_csv_file("regions.csv")
 
 # Función principal
 def main():
-       # Ingresar la consulta directamente en el script
-    sql_file = "query.sql"
-
+    st.title('PandaQ Nico Llorens')
+    st.text('Descripcion')
+    #st.markdown('## Titulo 2')
+    
+    # Ingresar la consulta directamente en el script
+    #sql_file = "query.sql"
+    
+    sql_query = st.text_area('Query', 'SELECT * FROM countries;')
     # Imprimir la consulta
     #print("Consulta ingresada:", sql_query)
     
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    sql_filepath = os.path.join(script_dir, sql_file)
-    # Analizar la consulta SQL desde el archivo
-    input_stream = FileStream(sql_filepath)
-    lexer = lcLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = lcParser(token_stream)
-    tree = parser.query()
+    if st.button('Ejecutar Query'):
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        sql_filepath = os.path.join(script_dir, "query.sql")
+        with open(sql_filepath, "w") as file:
+            file.write(sql_query)
+            
+        # Analizar la consulta SQL desde el archivo
+        input_stream = FileStream(sql_filepath)
+        lexer = lcLexer(input_stream)
+        token_stream = CommonTokenStream(lexer)
+        parser = lcParser(token_stream)
+        tree = parser.query()
 
-    # Crear un objeto Visitor y visitar el árbol
-    arbol = lcArbre({
-        'countries': countries,
-        'departments': departments,
-        'dependents': dependents,
-        'employees': employees,
-        'jobs': jobs,
-        'locations': locations,
-        'regions': regions
-    })
-    arbol.visit(tree)
+        #   Crear un objeto Visitor y visitar el árbol
+        arbol = lcArbre({
+            'countries': countries,
+            'departments': departments,
+            'dependents': dependents,
+            'employees': employees,
+            'jobs': jobs,
+            'locations': locations,
+            'regions': regions
+        })
+        arbol.visit(tree)
 
-    arbol.printResult()
-
+        arbol.printResult()
+        st.markdown('### Resultat de la consulta')
+        result_df = arbol.get_result()
+        st.write(result_df)
+        
 if __name__ == '__main__':
     main()
