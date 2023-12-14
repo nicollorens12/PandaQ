@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,15,76,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,14,76,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,1,0,1,0,1,0,1,1,1,1,1,1,1,1,5,1,22,8,1,10,1,12,1,25,9,1,1,1,1,
         1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,3,2,36,8,2,1,3,1,3,1,3,1,3,1,3,1,3,
         1,3,3,3,45,8,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,5,
@@ -24,15 +24,15 @@ def serializedATN():
         36,3,8,4,0,31,32,3,6,3,0,32,33,5,3,0,0,33,34,3,10,5,0,34,36,1,0,
         0,0,35,29,1,0,0,0,35,30,1,0,0,0,35,31,1,0,0,0,36,5,1,0,0,0,37,38,
         6,3,-1,0,38,39,5,7,0,0,39,40,3,6,3,0,40,41,5,8,0,0,41,45,1,0,0,0,
-        42,45,3,10,5,0,43,45,5,14,0,0,44,37,1,0,0,0,44,42,1,0,0,0,44,43,
-        1,0,0,0,45,60,1,0,0,0,46,47,10,6,0,0,47,48,5,9,0,0,48,59,3,6,3,7,
-        49,50,10,5,0,0,50,51,5,10,0,0,51,59,3,6,3,6,52,53,10,4,0,0,53,54,
-        5,11,0,0,54,59,3,6,3,5,55,56,10,3,0,0,56,57,5,12,0,0,57,59,3,6,3,
+        42,45,3,10,5,0,43,45,5,13,0,0,44,37,1,0,0,0,44,42,1,0,0,0,44,43,
+        1,0,0,0,45,60,1,0,0,0,46,47,10,6,0,0,47,48,5,4,0,0,48,59,3,6,3,7,
+        49,50,10,5,0,0,50,51,5,9,0,0,51,59,3,6,3,6,52,53,10,4,0,0,53,54,
+        5,10,0,0,54,59,3,6,3,5,55,56,10,3,0,0,56,57,5,11,0,0,57,59,3,6,3,
         4,58,46,1,0,0,0,58,49,1,0,0,0,58,52,1,0,0,0,58,55,1,0,0,0,59,62,
         1,0,0,0,60,58,1,0,0,0,60,61,1,0,0,0,61,7,1,0,0,0,62,60,1,0,0,0,63,
         68,3,10,5,0,64,65,5,5,0,0,65,67,3,10,5,0,66,64,1,0,0,0,67,70,1,0,
         0,0,68,66,1,0,0,0,68,69,1,0,0,0,69,9,1,0,0,0,70,68,1,0,0,0,71,72,
-        5,13,0,0,72,11,1,0,0,0,73,74,5,13,0,0,74,13,1,0,0,0,6,23,35,44,58,
+        5,12,0,0,72,11,1,0,0,0,73,74,5,12,0,0,74,13,1,0,0,0,6,23,35,44,58,
         60,68
     ]
 
@@ -46,13 +46,12 @@ class lcParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'SELECT'", "'FROM'", "'AS'", "<INVALID>", 
-                     "','", "';'", "'('", "')'", "<INVALID>", "'/'", "'+'", 
-                     "'-'" ]
+    literalNames = [ "<INVALID>", "'SELECT'", "'FROM'", "'AS'", "'*'", "','", 
+                     "';'", "'('", "')'", "'/'", "'+'", "'-'" ]
 
     symbolicNames = [ "<INVALID>", "SELECT", "FROM", "AS", "STAR", "COMMA", 
-                      "SEMICOLON", "LPAREN", "RPAREN", "MULT", "DIV", "PLUS", 
-                      "MINUS", "ID", "INTEGER", "WS" ]
+                      "SEMICOLON", "LPAREN", "RPAREN", "DIV", "PLUS", "MINUS", 
+                      "ID", "NUMBER", "WS" ]
 
     RULE_query = 0
     RULE_statement = 1
@@ -74,13 +73,12 @@ class lcParser ( Parser ):
     SEMICOLON=6
     LPAREN=7
     RPAREN=8
-    MULT=9
-    DIV=10
-    PLUS=11
-    MINUS=12
-    ID=13
-    INTEGER=14
-    WS=15
+    DIV=9
+    PLUS=10
+    MINUS=11
+    ID=12
+    NUMBER=13
+    WS=14
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -316,11 +314,11 @@ class lcParser ( Parser ):
             return self.getTypedRuleContext(lcParser.ColumnNameContext,0)
 
 
-        def INTEGER(self):
-            return self.getToken(lcParser.INTEGER, 0)
+        def NUMBER(self):
+            return self.getToken(lcParser.NUMBER, 0)
 
-        def MULT(self):
-            return self.getToken(lcParser.MULT, 0)
+        def STAR(self):
+            return self.getToken(lcParser.STAR, 0)
 
         def DIV(self):
             return self.getToken(lcParser.DIV, 0)
@@ -362,13 +360,13 @@ class lcParser ( Parser ):
                 self.state = 40
                 self.match(lcParser.RPAREN)
                 pass
-            elif token in [13]:
+            elif token in [12]:
                 self.state = 42
                 self.columnName()
                 pass
-            elif token in [14]:
+            elif token in [13]:
                 self.state = 43
-                self.match(lcParser.INTEGER)
+                self.match(lcParser.NUMBER)
                 pass
             else:
                 raise NoViableAltException(self)
@@ -393,7 +391,7 @@ class lcParser ( Parser ):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
                         self.state = 47
-                        self.match(lcParser.MULT)
+                        self.match(lcParser.STAR)
                         self.state = 48
                         self.expression(7)
                         pass

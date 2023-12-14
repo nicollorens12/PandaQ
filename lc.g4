@@ -11,12 +11,12 @@ selectItem: STAR
           ;
 
 expression: LPAREN expression RPAREN
-          | expression MULT expression
+          | expression STAR expression
           | expression DIV expression
           | expression PLUS expression
           | expression MINUS expression
           | columnName
-          | INTEGER
+          | NUMBER
           ;
 
 columnNameList: columnName (COMMA columnName)*;
@@ -34,12 +34,11 @@ COMMA: ',';
 SEMICOLON: ';';
 LPAREN: '(';
 RPAREN: ')';
-MULT: '*';
 DIV: '/';
 PLUS: '+';
 MINUS: '-';
 ID: [a-zA-Z_][a-zA-Z0-9_]*;
-INTEGER: [0-9]+;
-
+NUMBER: [0-9]+('.'[0-9]+)?; 
 // Ignorar espacios en blanco y saltos de línea
 WS: [ \t\r\n]+ -> skip;
+

@@ -22,38 +22,50 @@ class lcArbre(ParseTreeVisitor):
         table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.dataframes.get(table_name)
-        print('FLAG 0')
+
         if df is not None:
             # Verificar si hay al menos '*' en la lista de select_items
-            if any(item.getText() == '*' for item in select_items):
-                print('FLAG 1')
+            if any(self.isSelectAll(item) for item in select_items):
                 # Si hay '*', devolver todo el DataFrame
                 result_df = df
             else:
-                print('FLAG 2')
                 # Filtrar los nombres de las columnas que no son nulos
-                column_names = [self.visit(item) for item in select_items if self.visit(item) is not None]
+                column_names = [name for item in select_items for name in self.visitSelectItem(item) if name is not None]
+                print("column names retornado:", column_names)
                 result_df = df[column_names]
+
             return result_df
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
+  
 
-
-        
     def visitSelectItem(self, ctx: lcParser.SelectItemContext):
+
         if ctx.expression():
-            # Si hay una expresión, evaluarla y mostrar el resultado
+            # Si hay una expresión, evaluarla y devolver el resultado
             expression_result = self.visit(ctx.expression())
-            print(expression_result)
+            #print("Expression result:", expression_result)
+            return expression_result
         elif ctx.columnName():
-            # Si hay una columna, imprimir su nombre
-            print(ctx.columnName().getText())
+            print("ENTRO")
+            # Si hay una columna, devolver su nombre
+            column_name = ctx.columnName().getText()
+            #print("Column name:", column_name)
+            return column_name
+        elif ctx.columnNameList():
+            print("ENTRO 2")
+            # Si hay una lista de nombres de columna, procesarla según sea necesario
+            column_names = [self.visit(column) for column in ctx.columnNameList().columnName()]
+            print("Column names list:", column_names)
+            return column_names
         else:
-            print("Error: selectItem no contiene una expresión ni una columna.")
+            # Si no hay expresión ni columna, devolver None
+            print("Error: selectItem no contiene una expresión, una columna ni una lista de columnas.")
+            return None
 
 
-    def visitExpression(self, ctx: lcParser.ExpressionContext):
+    def visitExpression(self, ctx: lcParser.ExpressionContext): # NO VA LA MULTIPLICACION
         if ctx.PLUS():
             return self.visit(ctx.expression(0)) + self.visit(ctx.expression(1))
         elif ctx.MINUS():
@@ -64,14 +76,14 @@ class lcArbre(ParseTreeVisitor):
             return self.visit(ctx.expression(0)) / self.visit(ctx.expression(1))
         elif ctx.LPAREN() and ctx.RPAREN():
             return self.visit(ctx.expression(0))
-        elif ctx.ID():
+        elif ctx.columnName():
             # Manejar identificadores (columnas)
-            column_name = ctx.ID().getText()
+            column_name = ctx.columnName().getText()
             # En lugar de devolver un DataFrame, simplemente imprimir el nombre de la columna
-            print(column_name)
-        elif ctx.INTEGER():
+            return column_name
+        elif ctx.NUMBER():
             # Manejar enteros
-            return int(ctx.INTEGER().getText())
+            return float(ctx.NUMBER().getText())
         else:
             print("Expresión no reconocida")
             return None
@@ -93,3 +105,9 @@ class lcArbre(ParseTreeVisitor):
     
     def get_result(self):
         return self.resultado
+    
+    def isSelectAll(self, item: lcParser.SelectItemContext) -> bool:
+        # Verificar si el item es '*' y si le sigue directamente un FROM en la lista de select_items
+        if item.STAR() is not None:
+            return True
+        return False
