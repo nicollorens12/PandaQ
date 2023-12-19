@@ -24,41 +24,43 @@ class lcArbre(ParseTreeVisitor):
         df = self.dataframes.get(table_name)
 
         if df is not None:
-            # Verificar si hay al menos '*' en la lista de select_items
-            if any(self.isSelectAll(item) for item in select_items):
-                # Si hay '*', devolver todo el DataFrame
-                result_df = df
-            else:
-                # Filtrar los nombres de las columnas que no son nulos
-                column_names = [name for item in select_items for name in self.visitSelectItem(item) if name is not None]
-                print("column names retornado:", column_names)
-                result_df = df[column_names]
-
-            return result_df
+            # Iterar sobre cada elemento selectItem y aplicar la lógica individualmente
+            result_df = df  # Inicializamos result_df con el DataFrame original
+            for item in ctx.selectItem():
+                result_df = self.visitSelectItem(item, result_df)  # Actualizamos result_df con cada selectItem
+            return result_df 
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
   
 
-    def visitSelectItem(self, ctx: lcParser.SelectItemContext):
+    def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
+        if ctx.STAR():
+            return df
+        
+        elif ctx.columnNameList():
 
-        if ctx.expression():
+            # Obtener la lista de columnas
+            column_names = [col.getText() for col in ctx.columnNameList().columnName()]
+
+            # Verificar si todas las columnas existen en el DataFrame
+            missing_columns = [col for col in column_names if col not in df.columns]
+            if missing_columns:
+                print(f"Error: Las siguientes columnas no existen en el DataFrame: {', '.join(missing_columns)}")
+                return df  # Devolvemos el DataFrame original
+
+            # Realizar la lógica para actualizar el DataFrame según la lista de columnas
+            result_df = df[column_names]
+
+            return result_df  # Devolvemos el DataFrame actualizado
+        
+        elif ctx.expression():
             # Si hay una expresión, evaluarla y devolver el resultado
+            print("EXPRESION????")
             expression_result = self.visit(ctx.expression())
             #print("Expression result:", expression_result)
             return expression_result
-        elif ctx.columnName():
-            print("ENTRO")
-            # Si hay una columna, devolver su nombre
-            column_name = ctx.columnName().getText()
-            #print("Column name:", column_name)
-            return column_name
-        elif ctx.columnNameList():
-            print("ENTRO 2")
-            # Si hay una lista de nombres de columna, procesarla según sea necesario
-            column_names = [self.visit(column) for column in ctx.columnNameList().columnName()]
-            print("Column names list:", column_names)
-            return column_names
+
         else:
             # Si no hay expresión ni columna, devolver None
             print("Error: selectItem no contiene una expresión, una columna ni una lista de columnas.")
@@ -67,12 +69,16 @@ class lcArbre(ParseTreeVisitor):
 
     def visitExpression(self, ctx: lcParser.ExpressionContext): # NO VA LA MULTIPLICACION
         if ctx.PLUS():
+            print("SUMMA ES:", ctx.expression(0), " ", ctx.expression(1))
             return self.visit(ctx.expression(0)) + self.visit(ctx.expression(1))
         elif ctx.MINUS():
+            print("RESTA ES:", ctx.expression(0), " ", ctx.expression(1))
             return self.visit(ctx.expression(0)) - self.visit(ctx.expression(1))
         elif ctx.STAR():
+            print("MULYIPLICACIN ES:", ctx.expression(0), " ", ctx.expression(1))
             return self.visit(ctx.expression(0)) * self.visit(ctx.expression(1))
         elif ctx.DIV():
+            print("DIVISION ES:", ctx.expression(0), " ", ctx.expression(1))
             return self.visit(ctx.expression(0)) / self.visit(ctx.expression(1))
         elif ctx.LPAREN() and ctx.RPAREN():
             return self.visit(ctx.expression(0))
