@@ -1,1 +1,1 @@
-SELECT first_name,salary FROM employees;
+SELECT salary AS new_salary FROM employees;

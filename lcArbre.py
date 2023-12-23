@@ -22,19 +22,21 @@ class lcArbre(ParseTreeVisitor):
         table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.dataframes.get(table_name)
-
         if df is not None:
             # Iterar sobre cada elemento selectItem y aplicar la lógica individualmente
-            result_df = df  # Inicializamos result_df con el DataFrame original
-            for item in ctx.selectItem():
-                result_df = self.visitSelectItem(item, result_df)  # Actualizamos result_df con cada selectItem
-            return result_df 
+            if ctx.selectItem():
+                return self.visitSelectItem(ctx.selectItem(0), df)  # Actualizamos result_df con el único selectItem
+            else:
+                print(f"Error: No existe este selectItem.")
+                return pd.DataFrame()
+ 
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
   
 
     def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
+        result_df = None
         if ctx.STAR():
             return df
         
@@ -54,12 +56,16 @@ class lcArbre(ParseTreeVisitor):
 
             return result_df  # Devolvemos el DataFrame actualizado
         
-        elif ctx.expression():
+        elif ctx.expression(): #DEVUELVE UNA COLUMNA CALCULADA
             # Si hay una expresión, evaluarla y devolver el resultado
-            print("EXPRESION????")
-            expression_result = self.visit(ctx.expression())
-            #print("Expression result:", expression_result)
-            return expression_result
+            series = self.visitExpression(ctx.expression(),df)
+            print("DF ORIGINAL COLUMN: ",df.columns[0])
+            print("NUEVO NOMBRE: ",ctx.columnName().getText())
+            df = series.to_frame()
+            print(df.columns[0])
+            df.rename(ctx.columnName().getText())
+            #print(df.name)
+            return pd.concat([result_df, df], ignore_index=True)
 
         else:
             # Si no hay expresión ni columna, devolver None
@@ -67,7 +73,7 @@ class lcArbre(ParseTreeVisitor):
             return None
 
 
-    def visitExpression(self, ctx: lcParser.ExpressionContext): # NO VA LA MULTIPLICACION
+    def visitExpression(self, ctx: lcParser.ExpressionContext,df): # TIENE QUE DEVOLVER LA COLUMNA NUEVA
         if ctx.PLUS():
             print("SUMMA ES:", ctx.expression(0), " ", ctx.expression(1))
             return self.visit(ctx.expression(0)) + self.visit(ctx.expression(1))
@@ -85,8 +91,8 @@ class lcArbre(ParseTreeVisitor):
         elif ctx.columnName():
             # Manejar identificadores (columnas)
             column_name = ctx.columnName().getText()
-            # En lugar de devolver un DataFrame, simplemente imprimir el nombre de la columna
-            return column_name
+            print("EL COLUM NAME ES: ", column_name) #es erroneo, da el column name antiguo
+            return df[column_name]
         elif ctx.NUMBER():
             # Manejar enteros
             return float(ctx.NUMBER().getText())
