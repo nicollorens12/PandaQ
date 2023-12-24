@@ -22,26 +22,30 @@ class lcArbre(ParseTreeVisitor):
         table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.dataframes.get(table_name)
+
         if df is not None:
-            # Iterar sobre cada elemento selectItem y aplicar la lógica individualmente
-            if ctx.selectItem():
-                return self.visitSelectItem(ctx.selectItem(0), df)  # Actualizamos result_df con el único selectItem
-            else:
-                print(f"Error: No existe este selectItem.")
-                return pd.DataFrame()
- 
+            result_df = pd.DataFrame()
+
+            # Iterar sobre cada elemento selectItem y aplicar la logica individualmente
+            for select_item in select_items:
+                select_item_result = self.visitSelectItem(select_item, df)
+                result_df = pd.concat([result_df, select_item_result], axis=1)
+
+            return result_df
+
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
+
   
 
     def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
         result_df = None
+
         if ctx.STAR():
             return df
-        
-        elif ctx.columnNameList():
 
+        elif ctx.columnNameList():
             # Obtener la lista de columnas
             column_names = [col.getText() for col in ctx.columnNameList().columnName()]
 
@@ -49,50 +53,48 @@ class lcArbre(ParseTreeVisitor):
             missing_columns = [col for col in column_names if col not in df.columns]
             if missing_columns:
                 print(f"Error: Las siguientes columnas no existen en el DataFrame: {', '.join(missing_columns)}")
-                return df  # Devolvemos el DataFrame original
+                return pd.DataFrame()  # Devolvemos un DataFrame vacío
 
             # Realizar la lógica para actualizar el DataFrame según la lista de columnas
             result_df = df[column_names]
 
-            return result_df  # Devolvemos el DataFrame actualizado
-        
-        elif ctx.expression(): #DEVUELVE UNA COLUMNA CALCULADA
+        elif ctx.expression():
             # Si hay una expresión, evaluarla y devolver el resultado
-            series = self.visitExpression(ctx.expression(),df)
-            print("DF ORIGINAL COLUMN: ",df.columns[0])
-            print("NUEVO NOMBRE: ",ctx.columnName().getText())
-            df = series.to_frame()
-            print(df.columns[0])
-            df.rename(ctx.columnName().getText())
-            #print(df.name)
-            return pd.concat([result_df, df], ignore_index=True)
+            result_df = self.visitExpression(ctx.expression(), df)
+            #result_df = series.to_frame()
+            result_df.rename(columns={result_df.columns[0]: ctx.columnName().getText()}, inplace=True)
 
         else:
             # Si no hay expresión ni columna, devolver None
             print("Error: selectItem no contiene una expresión, una columna ni una lista de columnas.")
             return None
 
+        return result_df
+
+
 
     def visitExpression(self, ctx: lcParser.ExpressionContext,df): # TIENE QUE DEVOLVER LA COLUMNA NUEVA
-        if ctx.PLUS():
-            print("SUMMA ES:", ctx.expression(0), " ", ctx.expression(1))
-            return self.visit(ctx.expression(0)) + self.visit(ctx.expression(1))
-        elif ctx.MINUS():
-            print("RESTA ES:", ctx.expression(0), " ", ctx.expression(1))
-            return self.visit(ctx.expression(0)) - self.visit(ctx.expression(1))
-        elif ctx.STAR():
-            print("MULYIPLICACIN ES:", ctx.expression(0), " ", ctx.expression(1))
-            return self.visit(ctx.expression(0)) * self.visit(ctx.expression(1))
-        elif ctx.DIV():
-            print("DIVISION ES:", ctx.expression(0), " ", ctx.expression(1))
-            return self.visit(ctx.expression(0)) / self.visit(ctx.expression(1))
-        elif ctx.LPAREN() and ctx.RPAREN():
-            return self.visit(ctx.expression(0))
+        if ctx.PLUS() or ctx.MINUS() or ctx.STAR() or ctx.DIV():
+            column_name = ctx.expression(0).getText()
+            value = self.visitExpression(ctx.expression(1), df)
+    
+            if ctx.PLUS():
+                df[column_name] = df[column_name] + value
+            elif ctx.MINUS():
+                df[column_name] = df[column_name] - value
+            elif ctx.STAR():
+                df[column_name] = df[column_name] * value
+            elif ctx.DIV():
+                df[column_name] = df[column_name] / value
+    
+            nuevo_df = df[[column_name]].copy()
+            return nuevo_df
+ 
         elif ctx.columnName():
             # Manejar identificadores (columnas)
             column_name = ctx.columnName().getText()
-            print("EL COLUM NAME ES: ", column_name) #es erroneo, da el column name antiguo
-            return df[column_name]
+            return df[column_name].to_frame()
+        
         elif ctx.NUMBER():
             # Manejar enteros
             return float(ctx.NUMBER().getText())

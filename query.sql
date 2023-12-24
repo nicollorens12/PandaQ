@@ -1,1 +1,1 @@
-SELECT salary AS new_salary FROM employees;
+SELECT salary,salary*1.05 AS new_salary FROM employees;

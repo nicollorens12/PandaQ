@@ -10,13 +10,12 @@ selectItem: STAR
           | expression AS columnName
           ;
 
-expression: LPAREN expression RPAREN
+expression: NUMBER
           | expression STAR expression
           | expression DIV expression
           | expression PLUS expression
           | expression MINUS expression
           | columnName
-          | NUMBER
           ;
 
 columnNameList: columnName (COMMA columnName)*;

@@ -28,7 +28,7 @@ def main():
     # Ingresar la consulta directamente en el script
     #sql_file = "query.sql"
     
-    sql_query = st.text_area('Query', 'SELECT salary AS new_salary FROM employees;')
+    sql_query = st.text_area('Query', 'SELECT salary,salary*1.05 AS new_salary FROM employees;')
     # Imprimir la consulta
     #print("Consulta ingresada:", sql_query)
     
