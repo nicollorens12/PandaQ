@@ -1,1 +1,1 @@
-SELECT salary,salary*1.05 AS new_salary FROM employees;
+SELECT * FROM countries ORDER BY region_id, country_name DESC;

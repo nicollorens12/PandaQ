@@ -1,8 +1,4 @@
 from antlr4 import *
-if "." in __name__:
-    from .lcParser import lcParser
-else:
-    from lcParser import lcParser
 import pandas as pd
 
 if "." in __name__:
@@ -16,18 +12,51 @@ class lcArbre(ParseTreeVisitor):
         self.resultado = None
 
     def visitQuery(self, ctx: lcParser.QueryContext):
-        self.resultado = self.visit(ctx.statement())
+        order_by_expression_list = ctx.orderByExpressionList()
+
+        if order_by_expression_list:
+            print("HOLA")
+            order_columns = [self.visitOrderByExpression(expr) for expr in order_by_expression_list.orderByExpression()]
+            self.resultado = self.visitWithOrderBy(ctx.statement(), order_columns)
+        elif ctx.statement():  # Asegúrate de que ctx.statement() no sea None
+            self.resultado = self.visit(ctx.statement())
+            
+        else:
+            print("No hay ORDER BY ni statement.")
+
+            
+    def visitWithOrderBy(self, ctx: lcParser.StatementContext, order_columns):
+        result_df = self.visitStatement(ctx)
+        print(order_columns)
+        # Extraer los nombres de las columnas y las direcciones de ordenamiento
+        order_columns_list = [order.split(" ") for order in order_columns]
+        
+        # Extraer solo los nombres de las columnas para pasar a sort_values
+        column_names = [col[0] for col in order_columns_list]
+
+        # Extraer las direcciones de ordenamiento o establecer ASC por defecto
+        directions = [col[1].upper() if len(col) > 1 else 'ASC' for col in order_columns_list]
+        
+        # Ordenar el DataFrame según las columnas y direcciones especificadas
+        if not result_df.empty:
+            result_df.sort_values(by=column_names, ascending=[dir == 'ASC' for dir in directions], inplace=True)
+
+        return result_df
+
+
+
 
     def visitStatement(self, ctx: lcParser.StatementContext):
         table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.dataframes.get(table_name)
-
+        print("BUENAS")
         if df is not None:
             result_df = pd.DataFrame()
 
             # Iterar sobre cada elemento selectItem y aplicar la logica individualmente
             for select_item in select_items:
+                print("EII")
                 select_item_result = self.visitSelectItem(select_item, df)
                 result_df = pd.concat([result_df, select_item_result], axis=1)
 
@@ -36,8 +65,6 @@ class lcArbre(ParseTreeVisitor):
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
-
-  
 
     def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
         result_df = None
@@ -71,13 +98,11 @@ class lcArbre(ParseTreeVisitor):
 
         return result_df
 
-
-
-    def visitExpression(self, ctx: lcParser.ExpressionContext,df): # TIENE QUE DEVOLVER LA COLUMNA NUEVA
+    def visitExpression(self, ctx: lcParser.ExpressionContext, df):  # TIENE QUE DEVOLVER LA COLUMNA NUEVA
         if ctx.PLUS() or ctx.MINUS() or ctx.STAR() or ctx.DIV():
             column_name = ctx.expression(0).getText()
             value = self.visitExpression(ctx.expression(1), df)
-    
+
             if ctx.PLUS():
                 df[column_name] = df[column_name] + value
             elif ctx.MINUS():
@@ -86,15 +111,15 @@ class lcArbre(ParseTreeVisitor):
                 df[column_name] = df[column_name] * value
             elif ctx.DIV():
                 df[column_name] = df[column_name] / value
-    
+
             nuevo_df = df[[column_name]].copy()
             return nuevo_df
- 
+
         elif ctx.columnName():
             # Manejar identificadores (columnas)
             column_name = ctx.columnName().getText()
             return df[column_name].to_frame()
-        
+
         elif ctx.NUMBER():
             # Manejar enteros
             return float(ctx.NUMBER().getText())
@@ -108,6 +133,23 @@ class lcArbre(ParseTreeVisitor):
     def visitColumnName(self, ctx: lcParser.ColumnNameContext):
         return ctx.ID().getText()
 
+    def visitOrderByExpressionList(self, ctx: lcParser.OrderByExpressionListContext):
+        return [self.visit(expr) for expr in ctx.orderByExpression()]
+
+    def visitOrderByExpression(self, ctx: lcParser.OrderByExpressionContext):
+        column_name = self.visitColumnName(ctx.columnName())
+        
+        # Verificar si hay ASC o DESC
+        if ctx.ASC():
+            direction = "ASC"
+        elif ctx.DESC():
+            direction = "DESC"
+        else:
+            direction = "ASC"  # Si no se especifica, asumir ASC
+        
+        return f"{column_name} {direction}"
+
+
     def visitTableName(self, ctx: lcParser.TableNameContext):
         return ctx.ID().getText()
 
@@ -116,10 +158,10 @@ class lcArbre(ParseTreeVisitor):
             print(self.resultado.to_string(index=False))
         else:
             print("No hay resultado para imprimir.")
-    
+
     def get_result(self):
         return self.resultado
-    
+
     def isSelectAll(self, item: lcParser.SelectItemContext) -> bool:
         # Verificar si el item es '*' y si le sigue directamente un FROM en la lista de select_items
         if item.STAR() is not None:

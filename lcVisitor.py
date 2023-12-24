@@ -44,5 +44,15 @@ class lcVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by lcParser#orderByExpressionList.
+    def visitOrderByExpressionList(self, ctx:lcParser.OrderByExpressionListContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#orderByExpression.
+    def visitOrderByExpression(self, ctx:lcParser.OrderByExpressionContext):
+        return self.visitChildren(ctx)
+
+
 
 del lcParser
