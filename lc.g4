@@ -22,9 +22,7 @@ columnNameList: columnName (COMMA columnName)*;
 
 columnName: ID;
 
-tableSource: tableName
-           | tableName INNER JOIN tableName ON condition
-           ;
+tableSource: tableName (INNER JOIN tableName ON condition)*;
 
 tableName: ID;
 

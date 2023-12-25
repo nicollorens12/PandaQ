@@ -60,22 +60,31 @@ class lcArbre(ParseTreeVisitor):
             return result_df
 
         else:
-            print(f"Error: La tabla '{table_name}' no existe.")
+            print(f"Error: La tabla esta vacia.")
             return pd.DataFrame()
 
     def visitTableSource(self, ctx: lcParser.TableSourceContext):
-        if ctx.tableName() and not (ctx.INNER() and ctx.JOIN() and ctx.ON() and ctx.condition()):
+        num_tables = len(ctx.tableName())
+
+        if num_tables == 1:
             # Si solo hay una tabla y no hay INNER JOIN, devolver el DataFrame correspondiente
             return self.dataframes.get(ctx.tableName(0).getText(), pd.DataFrame())
         elif ctx.INNER() and ctx.JOIN() and ctx.ON() and ctx.condition():
-            # Si es un INNER JOIN, aplicar la condición ON
-            left_df = self.dataframes.get(ctx.tableName(0).getText(), pd.DataFrame())
-            right_df = self.dataframes.get(ctx.tableName(1).getText(), pd.DataFrame())
-            condition_result = self.visitCondition(ctx.condition(), pd.DataFrame())  # La condición ON se evalúa con un DataFrame vacío
-            return pd.merge(left_df, right_df, how='inner', left_on=condition_result[0], right_on=condition_result[1])
+            # Si hay al menos un INNER JOIN, aplicar la condición ON
+            # Inicializar el DataFrame con la primera tabla
+            result_df = self.dataframes.get(ctx.tableName(0).getText(), pd.DataFrame())
+
+            # Iterar sobre las tablas y condiciones INNER JOIN
+            for i in range(1, num_tables):
+                right_df = self.dataframes.get(ctx.tableName(i).getText(), pd.DataFrame())
+                condition_result = self.visitCondition(ctx.condition(i - 1), pd.DataFrame())  # La condición ON se evalúa con un DataFrame vacío
+                result_df = pd.merge(result_df, right_df, how='inner', left_on=condition_result[0], right_on=condition_result[1])
+
+            return result_df
         else:
             print("Error: No se pudo determinar la fuente de la tabla.")
             return pd.DataFrame()
+
 
 
     def visitCondition(self, ctx: lcParser.ConditionContext, df):
@@ -98,7 +107,6 @@ class lcArbre(ParseTreeVisitor):
         # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
         condition_result = self.visitCondition(condition, df)
         return df[condition_result]
-
 
     def visitBooleanExpression(self, ctx: lcParser.BooleanExpressionContext, df):
         # Implementar lógica para evaluar expresiones booleanas
@@ -138,7 +146,6 @@ class lcArbre(ParseTreeVisitor):
             return self.visitComparisonExpression(ctx.comparisonExpression(), df)
         else:
             return None
-
 
     def visitComparisonExpression(self, ctx: lcParser.ComparisonExpressionContext, df):
         # Implementar lógica para evaluar expresiones de comparación
@@ -184,9 +191,6 @@ class lcArbre(ParseTreeVisitor):
         else:
             print(f"Error: La columna '{column_name}' no existe en el DataFrame.")
             return None
-
-
-
 
     def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
         result_df = None
@@ -258,8 +262,6 @@ class lcArbre(ParseTreeVisitor):
     def visitOrderByExpressionList(self, ctx: lcParser.OrderByExpressionListContext):
         return [self.visit(expr) for expr in ctx.orderByExpression()]
     
-    
-
     def visitOrderByExpression(self, ctx: lcParser.OrderByExpressionContext):
         column_name = self.visitColumnName(ctx.columnName())
         
@@ -272,7 +274,6 @@ class lcArbre(ParseTreeVisitor):
             direction = "ASC"  # Si no se especifica, asumir ASC
         
         return f"{column_name} {direction}"
-
 
     def visitTableName(self, ctx: lcParser.TableNameContext):
         return ctx.ID().getText()
