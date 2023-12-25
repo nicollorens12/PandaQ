@@ -1,1 +1,1 @@
-SELECT * FROM countries ORDER BY region_id, country_name DESC;
+SELECT * FROM countries WHERE region_id=1;

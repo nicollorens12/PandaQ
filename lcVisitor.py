@@ -54,5 +54,35 @@ class lcVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by lcParser#condition.
+    def visitCondition(self, ctx:lcParser.ConditionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#booleanExpression.
+    def visitBooleanExpression(self, ctx:lcParser.BooleanExpressionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#booleanTerm.
+    def visitBooleanTerm(self, ctx:lcParser.BooleanTermContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#booleanFactor.
+    def visitBooleanFactor(self, ctx:lcParser.BooleanFactorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#booleanPrimary.
+    def visitBooleanPrimary(self, ctx:lcParser.BooleanPrimaryContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by lcParser#comparisonExpression.
+    def visitComparisonExpression(self, ctx:lcParser.ComparisonExpressionContext):
+        return self.visitChildren(ctx)
+
+
 
 del lcParser

@@ -15,7 +15,6 @@ class lcArbre(ParseTreeVisitor):
         order_by_expression_list = ctx.orderByExpressionList()
 
         if order_by_expression_list:
-            print("HOLA")
             order_columns = [self.visitOrderByExpression(expr) for expr in order_by_expression_list.orderByExpression()]
             self.resultado = self.visitWithOrderBy(ctx.statement(), order_columns)
         elif ctx.statement():  # Asegúrate de que ctx.statement() no sea None
@@ -27,7 +26,6 @@ class lcArbre(ParseTreeVisitor):
             
     def visitWithOrderBy(self, ctx: lcParser.StatementContext, order_columns):
         result_df = self.visitStatement(ctx)
-        print(order_columns)
         # Extraer los nombres de las columnas y las direcciones de ordenamiento
         order_columns_list = [order.split(" ") for order in order_columns]
         
@@ -43,20 +41,20 @@ class lcArbre(ParseTreeVisitor):
 
         return result_df
 
-
-
-
     def visitStatement(self, ctx: lcParser.StatementContext):
         table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.dataframes.get(table_name)
-        print("BUENAS")
         if df is not None:
             result_df = pd.DataFrame()
 
-            # Iterar sobre cada elemento selectItem y aplicar la logica individualmente
+            # Filtrar el DataFrame según la condición WHERE si está presente
+            where_condition = ctx.condition()
+            if where_condition:
+                df = self.filterDataFrame(df, where_condition)
+
+            # Iterar sobre cada elemento selectItem y aplicar la lógica individualmente
             for select_item in select_items:
-                print("EII")
                 select_item_result = self.visitSelectItem(select_item, df)
                 result_df = pd.concat([result_df, select_item_result], axis=1)
 
@@ -65,6 +63,109 @@ class lcArbre(ParseTreeVisitor):
         else:
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
+
+            
+    def filterDataFrame(self, df, condition):
+        # Implementar lógica para filtrar el DataFrame según la condición WHERE
+        # Puedes utilizar el paquete pandas para realizar el filtrado de manera eficiente
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        condition_result = self.visitCondition(condition, df)
+        return df[condition_result]
+
+    def visitCondition(self, ctx: lcParser.ConditionContext, df):
+        # Implementar lógica para evaluar la condición WHERE
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        boolean_expression_result = self.visitBooleanExpression(ctx.booleanExpression(), df)
+        return boolean_expression_result
+
+    def visitBooleanExpression(self, ctx: lcParser.BooleanExpressionContext, df):
+        # Implementar lógica para evaluar expresiones booleanas
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        boolean_term_results = [self.visitBooleanTerm(term, df) for term in ctx.booleanTerm()]
+        if ctx.OR():
+            return boolean_term_results[0] | boolean_term_results[1]
+        else:
+            return boolean_term_results[0]
+
+    def visitBooleanTerm(self, ctx: lcParser.BooleanTermContext, df):
+        # Implementar lógica para evaluar términos booleanos
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        boolean_factor_results = [self.visitBooleanFactor(factor, df) for factor in ctx.booleanFactor()]
+        if ctx.AND():
+            return boolean_factor_results[0] & boolean_factor_results[1]
+        else:
+            return boolean_factor_results[0]
+
+    def visitBooleanFactor(self, ctx: lcParser.BooleanFactorContext, df):
+        # Implementar lógica para evaluar factores booleanos
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        boolean_primary_result = self.visitBooleanPrimary(ctx.booleanPrimary(), df)
+        if ctx.NOT():
+            return ~boolean_primary_result
+        else:
+            return boolean_primary_result
+
+    def visitBooleanPrimary(self, ctx: lcParser.BooleanPrimaryContext, df):
+        # Implementar lógica para evaluar primarios booleanos
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        if ctx.comparisonExpression():
+            return self.visitComparisonExpression(ctx.comparisonExpression(), df)
+        else:
+            return None
+
+
+    def visitComparisonExpression(self, ctx: lcParser.ComparisonExpressionContext, df):
+        # Implementar lógica para evaluar expresiones de comparación
+        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
+        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
+        
+        # Obtener el nombre de la columna (primer operando)
+        column_name = self.visitColumnName(ctx.columnName())
+        column_name2 = ctx.columnName().getText()
+
+        # Obtener la expresión constante (segundo operando)
+        constant_operand = None
+        if ctx.NUMBER():
+            constant_operand = float(ctx.NUMBER().getText())
+        elif ctx.TRUE():
+            constant_operand = True
+        elif ctx.FALSE():
+            constant_operand = False
+        elif ctx.STRING():
+            constant_operand = ctx.STRING().getText()[1:-1]  # Eliminar comillas de inicio y fin
+    
+        # Obtener los valores reales de la columna y la expresión constante
+        left_operand = df[column_name] if column_name in df.columns else None
+        right_operand = constant_operand
+
+    
+        if left_operand is not None:
+            # Realizar la comparación según el operador
+            if ctx.EQUAL():
+                return left_operand == right_operand
+            elif ctx.NOT_EQUAL():
+                return left_operand != right_operand
+            elif ctx.LESS():
+                return left_operand < right_operand
+            elif ctx.LESS_OR_EQUAL():
+                return left_operand <= right_operand
+            elif ctx.GREATER():
+                return left_operand > right_operand
+            elif ctx.GREATER_OR_EQUAL():
+                return left_operand >= right_operand
+            else:
+                return None
+        else:
+            print(f"Error: La columna '{column_name}' no existe en el DataFrame.")
+            return None
+
+
+
 
     def visitSelectItem(self, ctx: lcParser.SelectItemContext, df):
         result_df = None
@@ -135,6 +236,8 @@ class lcArbre(ParseTreeVisitor):
 
     def visitOrderByExpressionList(self, ctx: lcParser.OrderByExpressionListContext):
         return [self.visit(expr) for expr in ctx.orderByExpression()]
+    
+    
 
     def visitOrderByExpression(self, ctx: lcParser.OrderByExpressionContext):
         column_name = self.visitColumnName(ctx.columnName())

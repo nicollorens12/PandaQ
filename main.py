@@ -28,7 +28,7 @@ def main():
     # Ingresar la consulta directamente en el script
     #sql_file = "query.sql"
     
-    sql_query = st.text_area('Query', 'SELECT * FROM countries ORDER BY region_id, country_name DESC;')
+    sql_query = st.text_area('Query', 'SELECT * FROM countries WHERE not region_id=1;')
     # Imprimir la consulta
     #print("Consulta ingresada:", sql_query)
     
@@ -43,7 +43,6 @@ def main():
         lexer = lcLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
         parser = lcParser(token_stream)
-        print("FLAG")
         tree = parser.query()
 
         #   Crear un objeto Visitor y visitar el árbol
