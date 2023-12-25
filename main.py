@@ -8,36 +8,45 @@ import streamlit as st
 import os
 from lcArbre import lcArbre
 
+# Función para crear o recuperar la instancia de lcArbre desde la caché
+@st.cache_resource()
+def create_or_get_lcArbre():
+    # Cargar los DataFrames desde los archivos CSV
+    countries = load_csv_file("countries.csv")
+    departments = load_csv_file("departments.csv")
+    dependents = load_csv_file("dependents.csv")
+    employees = load_csv_file("employees.csv")
+    jobs = load_csv_file("jobs.csv")
+    locations = load_csv_file("locations.csv")
+    regions = load_csv_file("regions.csv")
 
+    # Crear la instancia de lcArbre
+    arbol = lcArbre({
+        'countries': countries,
+        'departments': departments,
+        'dependents': dependents,
+        'employees': employees,
+        'jobs': jobs,
+        'locations': locations,
+        'regions': regions
+    })
 
-# Cargar los DataFrames desde los archivos CSV
-countries = load_csv_file("countries.csv")
-departments = load_csv_file("departments.csv")
-dependents = load_csv_file("dependents.csv")
-employees = load_csv_file("employees.csv")
-jobs = load_csv_file("jobs.csv")
-locations = load_csv_file("locations.csv")
-regions = load_csv_file("regions.csv")
+    return arbol
 
 # Función principal
 def main():
     st.title('PandaQ Nico Llorens')
     st.text('Descripcion')
-    #st.markdown('## Titulo 2')
-    
+
     # Ingresar la consulta directamente en el script
-    #sql_file = "query.sql"
-    
     sql_query = st.text_area('Query', 'id := SELECT job_id FROM jobs;')
-    # Imprimir la consulta
-    #print("Consulta ingresada:", sql_query)
-    
+
     if st.button('Ejecutar Query'):
         script_dir = os.path.dirname(os.path.realpath(__file__))
         sql_filepath = os.path.join(script_dir, "query.sql")
         with open(sql_filepath, "w") as file:
             file.write(sql_query)
-            
+
         # Analizar la consulta SQL desde el archivo
         input_stream = FileStream(sql_filepath)
         lexer = lcLexer(input_stream)
@@ -45,22 +54,15 @@ def main():
         parser = lcParser(token_stream)
         tree = parser.instruction()
 
-        #   Crear un objeto Visitor y visitar el árbol
-        arbol = lcArbre({
-            'countries': countries,
-            'departments': departments,
-            'dependents': dependents,
-            'employees': employees,
-            'jobs': jobs,
-            'locations': locations,
-            'regions': regions
-        })
+        # Obtener la instancia de lcArbre desde la caché
+        arbol = create_or_get_lcArbre()
+
+        # Visitar el árbol y realizar las operaciones
         arbol.visitInstruction(tree)
 
-        #arbol.printResult()
         st.markdown('### Resultat de la consulta')
         result_df = arbol.get_result()
         st.write(result_df)
-        
+
 if __name__ == '__main__':
     main()

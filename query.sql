@@ -1,1 +1,1 @@
-SELECT job_id FROM jobs;
+select first_name, last_name from q;

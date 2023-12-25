@@ -14,27 +14,23 @@ class lcArbre(ParseTreeVisitor):
     def visitInstruction(self, ctx: lcParser.InstructionContext):
         if ctx.assignment():
             self.visitAssignment(ctx.assignment())
-            print("Nombres de los DataFrames despues de una asignacion:")
-            for df_name in self.dataframes:
-                print(df_name)
         elif ctx.query():
-            print("Nombres de los DataFrames antes del query:")
-            for df_name in self.dataframes:
-                print(df_name)
             self.visitQuery(ctx.query())
         else:
             print("Error: Instrucción no reconocida.")
     
     def visitAssignment(self, ctx: lcParser.AssignmentContext):
         variable_name = ctx.ID().getText()
-        query_result = self.visitQuery(ctx.query())
+        self.visitQuery(ctx.query())
 
         # Guardar el resultado en self.dataframes
-        self.dataframes[variable_name] = query_result
+        #print("QUERY RESULT:",query_result)
+        #print("RESULTADO:", self.resultado)
+        self.dataframes[variable_name] = self.resultado
 
     def visitQuery(self, ctx: lcParser.QueryContext):
         order_by_expression_list = ctx.orderByExpressionList()
-
+        
         if order_by_expression_list:
             order_columns = [self.visitOrderByExpression(expr) for expr in order_by_expression_list.orderByExpression()]
             self.resultado = self.visitWithOrderBy(ctx.statement(), order_columns)
