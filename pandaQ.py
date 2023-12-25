@@ -39,7 +39,7 @@ def main():
     st.text('Descripcion')
 
     # Ingresar la consulta directamente en el script
-    sql_query = st.text_area('Query', 'id := SELECT job_id FROM jobs;')
+    sql_query = st.text_area('Query', 'q := select first_name,last_name, salary, salary *1.05 as new_salary from employees where department_id=5;')
 
     if st.button('Ejecutar Query'):
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -51,7 +51,7 @@ def main():
         input_stream = FileStream(sql_filepath)
         lexer = lcLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
-        parser = lcParser(token_stream)
+        parser = lcParser(token_stream) 
         tree = parser.instruction()
 
         # Obtener la instancia de QVisitor desde la caché
@@ -59,10 +59,13 @@ def main():
 
         # Visitar el árbol y realizar las operaciones
         arbol.visitInstruction(tree)
-
-        st.markdown('### Resultat de la consulta')
         result_df = arbol.get_result()
-        st.write(result_df)
+        if arbol.instruction_type == "assignment" or arbol.instruction_type == "query":
+            st.write(result_df)
+            arbol.empty_instruction_type()
+        elif arbol.instruction_type == "plot":
+            st.pyplot(result_df.plot.barh(stacked=True).figure)
+            arbol.empty_instruction_type()
 
 if __name__ == '__main__':
     main()

@@ -14,6 +14,11 @@ class lcVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by lcParser#plot.
+    def visitPlot(self, ctx:lcParser.PlotContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by lcParser#assignment.
     def visitAssignment(self, ctx:lcParser.AssignmentContext):
         return self.visitChildren(ctx)

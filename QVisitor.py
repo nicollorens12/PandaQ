@@ -10,14 +10,24 @@ class QVisitor(ParseTreeVisitor):
     def __init__(self, dataframes):
         self.dataframes = dataframes
         self.resultado = None
+        self.instruction_type = None 
     
     def visitInstruction(self, ctx: lcParser.InstructionContext):
-        if ctx.assignment():
+        if ctx.plot():
+            self.instruction_type = "plot"
+            self.resultado = self.dataframes.get(self.visitPlot(ctx.plot()), pd.DataFrame())
+        elif ctx.assignment():
+            self.instruction_type = "assignment"
             self.visitAssignment(ctx.assignment())
         elif ctx.query():
+            self.instruction_type = "query"
             self.visitQuery(ctx.query())
+        
         else:
             print("Error: Instrucción no reconocida.")
+    
+    def visitPlot(self, ctx: lcParser.PlotContext):
+        return ctx.tableName().getText()
     
     def visitAssignment(self, ctx: lcParser.AssignmentContext):
         variable_name = ctx.ID().getText()
@@ -227,16 +237,17 @@ class QVisitor(ParseTreeVisitor):
             value = self.visitExpression(ctx.expression(1), df)
 
             if ctx.PLUS():
-                df[column_name] = df[column_name] + value
+                df.loc[:, column_name] = df[column_name] + value
             elif ctx.MINUS():
-                df[column_name] = df[column_name] - value
+                df.loc[:, column_name] = df[column_name] - value
             elif ctx.STAR():
-                df[column_name] = df[column_name] * value
+                df.loc[:, column_name] = df[column_name] * value
             elif ctx.DIV():
-                df[column_name] = df[column_name] / value
+                df.loc[:, column_name] = df[column_name] / value
 
             nuevo_df = df[[column_name]].copy()
             return nuevo_df
+
 
         elif ctx.columnName():
             # Manejar identificadores (columnas)
@@ -301,10 +312,6 @@ class QVisitor(ParseTreeVisitor):
     def get_result(self):
         return self.resultado
 
-    def isSelectAll(self, item: lcParser.SelectItemContext) -> bool:
-        # Verificar si el item es '*' y si le sigue directamente un FROM en la lista de select_items
-        if item.STAR() is not None:
-            return True
-        return False
-    
+    def empty_instruction_type(self):
+        self.instruction_type = None
     

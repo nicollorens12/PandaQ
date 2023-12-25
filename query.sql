@@ -1,1 +1,1 @@
-select first_name, last_name from q;
+plot q;

@@ -1,7 +1,9 @@
 grammar lc;
 
 // Definición de reglas
-instruction: (assignment | query);
+instruction: (plot | assignment | query);
+
+plot: PLOT tableName SEMICOLON;
 
 assignment: ID ASSIG query;
 
@@ -65,6 +67,7 @@ NOT: [Nn][Oo][Tt];
 INNER: [Ii][Nn][Nn][Ee][Rr];
 JOIN: [Jj][Oo][Ii][Nn];
 ON: [Oo][Nn];
+PLOT: [Pp][Ll][Oo][Tt];
 STAR: '*';
 COMMA: ',';
 SEMICOLON: ';';
