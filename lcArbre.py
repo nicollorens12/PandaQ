@@ -23,24 +23,6 @@ class lcArbre(ParseTreeVisitor):
         else:
             print("No hay ORDER BY ni statement.")
 
-            
-    def visitWithOrderBy(self, ctx: lcParser.StatementContext, order_columns):
-        result_df = self.visitStatement(ctx)
-        # Extraer los nombres de las columnas y las direcciones de ordenamiento
-        order_columns_list = [order.split(" ") for order in order_columns]
-        
-        # Extraer solo los nombres de las columnas para pasar a sort_values
-        column_names = [col[0] for col in order_columns_list]
-
-        # Extraer las direcciones de ordenamiento o establecer ASC por defecto
-        directions = [col[1].upper() if len(col) > 1 else 'ASC' for col in order_columns_list]
-        
-        # Ordenar el DataFrame según las columnas y direcciones especificadas
-        if not result_df.empty:
-            result_df.sort_values(by=column_names, ascending=[dir == 'ASC' for dir in directions], inplace=True)
-
-        return result_df
-
     def visitStatement(self, ctx: lcParser.StatementContext):
         select_items = ctx.selectItem() if ctx.selectItem() else []
         df = self.visitTableSource(ctx.tableSource())
@@ -84,8 +66,6 @@ class lcArbre(ParseTreeVisitor):
         else:
             print("Error: No se pudo determinar la fuente de la tabla.")
             return pd.DataFrame()
-
-
 
     def visitCondition(self, ctx: lcParser.ConditionContext, df):
         if ctx.booleanExpression():
@@ -224,7 +204,7 @@ class lcArbre(ParseTreeVisitor):
 
         return result_df
 
-    def visitExpression(self, ctx: lcParser.ExpressionContext, df):  # TIENE QUE DEVOLVER LA COLUMNA NUEVA
+    def visitExpression(self, ctx: lcParser.ExpressionContext, df):
         if ctx.PLUS() or ctx.MINUS() or ctx.STAR() or ctx.DIV():
             column_name = ctx.expression(0).getText()
             value = self.visitExpression(ctx.expression(1), df)
@@ -258,6 +238,23 @@ class lcArbre(ParseTreeVisitor):
 
     def visitColumnName(self, ctx: lcParser.ColumnNameContext):
         return ctx.ID().getText()
+    
+    def visitWithOrderBy(self, ctx: lcParser.StatementContext, order_columns):
+        result_df = self.visitStatement(ctx)
+        # Extraer los nombres de las columnas y las direcciones de ordenamiento
+        order_columns_list = [order.split(" ") for order in order_columns]
+        
+        # Extraer solo los nombres de las columnas para pasar a sort_values
+        column_names = [col[0] for col in order_columns_list]
+
+        # Extraer las direcciones de ordenamiento o establecer ASC por defecto
+        directions = [col[1].upper() if len(col) > 1 else 'ASC' for col in order_columns_list]
+        
+        # Ordenar el DataFrame según las columnas y direcciones especificadas
+        if not result_df.empty:
+            result_df.sort_values(by=column_names, ascending=[dir == 'ASC' for dir in directions], inplace=True)
+
+        return result_df
 
     def visitOrderByExpressionList(self, ctx: lcParser.OrderByExpressionListContext):
         return [self.visit(expr) for expr in ctx.orderByExpression()]
