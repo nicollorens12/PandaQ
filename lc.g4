@@ -3,7 +3,7 @@ grammar lc;
 // Definición de reglas
 query: statement (ORDER BY orderByExpressionList)? SEMICOLON;
 
-statement: SELECT (selectItem (COMMA selectItem)*) FROM tableName (WHERE condition)?;
+statement: SELECT (selectItem (COMMA selectItem)*) FROM tableSource (WHERE condition)?;
 
 selectItem: STAR
           | columnNameList
@@ -22,13 +22,19 @@ columnNameList: columnName (COMMA columnName)*;
 
 columnName: ID;
 
+tableSource: tableName
+           | tableName INNER JOIN tableName ON condition
+           ;
+
 tableName: ID;
 
 orderByExpressionList: orderByExpression (COMMA orderByExpression)*;
 
 orderByExpression: columnName (ASC | DESC)?;
 
-condition: booleanExpression;
+condition: booleanExpression
+        | columnName EQUAL columnName
+        ;
 
 booleanExpression: booleanTerm (OR booleanTerm)*;
 
@@ -54,6 +60,9 @@ WHERE: [Ww][Hh][Ee][Rr][Ee];
 OR: [Oo][Rr];
 AND: [Aa][Nn][Dd];
 NOT: [Nn][Oo][Tt];
+INNER: [Ii][Nn][Nn][Ee][Rr];
+JOIN: [Jj][Oo][Ii][Nn];
+ON: [Oo][Nn];
 STAR: '*';
 COMMA: ',';
 SEMICOLON: ';';

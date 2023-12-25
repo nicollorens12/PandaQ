@@ -28,7 +28,7 @@ def main():
     # Ingresar la consulta directamente en el script
     #sql_file = "query.sql"
     
-    sql_query = st.text_area('Query', 'SELECT * FROM countries WHERE not region_id=1;')
+    sql_query = st.text_area('Query', 'SELECT first_name,department_name FROM employees INNER JOIN departments on department_id=department_id;')
     # Imprimir la consulta
     #print("Consulta ingresada:", sql_query)
     

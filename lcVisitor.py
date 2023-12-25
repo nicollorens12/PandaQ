@@ -39,6 +39,11 @@ class lcVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by lcParser#tableSource.
+    def visitTableSource(self, ctx:lcParser.TableSourceContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by lcParser#tableName.
     def visitTableName(self, ctx:lcParser.TableNameContext):
         return self.visitChildren(ctx)

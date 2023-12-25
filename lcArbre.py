@@ -42,9 +42,8 @@ class lcArbre(ParseTreeVisitor):
         return result_df
 
     def visitStatement(self, ctx: lcParser.StatementContext):
-        table_name = ctx.tableName().getText()
         select_items = ctx.selectItem() if ctx.selectItem() else []
-        df = self.dataframes.get(table_name)
+        df = self.visitTableSource(ctx.tableSource())
         if df is not None:
             result_df = pd.DataFrame()
 
@@ -64,7 +63,35 @@ class lcArbre(ParseTreeVisitor):
             print(f"Error: La tabla '{table_name}' no existe.")
             return pd.DataFrame()
 
-            
+    def visitTableSource(self, ctx: lcParser.TableSourceContext):
+        if ctx.tableName() and not (ctx.INNER() and ctx.JOIN() and ctx.ON() and ctx.condition()):
+            # Si solo hay una tabla y no hay INNER JOIN, devolver el DataFrame correspondiente
+            return self.dataframes.get(ctx.tableName(0).getText(), pd.DataFrame())
+        elif ctx.INNER() and ctx.JOIN() and ctx.ON() and ctx.condition():
+            # Si es un INNER JOIN, aplicar la condición ON
+            left_df = self.dataframes.get(ctx.tableName(0).getText(), pd.DataFrame())
+            right_df = self.dataframes.get(ctx.tableName(1).getText(), pd.DataFrame())
+            condition_result = self.visitCondition(ctx.condition(), pd.DataFrame())  # La condición ON se evalúa con un DataFrame vacío
+            return pd.merge(left_df, right_df, how='inner', left_on=condition_result[0], right_on=condition_result[1])
+        else:
+            print("Error: No se pudo determinar la fuente de la tabla.")
+            return pd.DataFrame()
+
+
+    def visitCondition(self, ctx: lcParser.ConditionContext, df):
+        if ctx.booleanExpression():
+            # Si es una expresión booleana, evaluarla directamente
+            return self.visitBooleanExpression(ctx.booleanExpression(), df)
+        
+        elif ctx.columnName(0) and ctx.columnName(1) and ctx.EQUAL():
+            # Si es una comparación entre columnas, realizar la comparación
+            column_name1 = self.visitColumnName(ctx.columnName(0))
+            column_name2 = self.visitColumnName(ctx.columnName(1))
+            return [column_name1, column_name2]
+        else:
+            print("Error: Condición no reconocida.")
+            return None
+
     def filterDataFrame(self, df, condition):
         # Implementar lógica para filtrar el DataFrame según la condición WHERE
         # Puedes utilizar el paquete pandas para realizar el filtrado de manera eficiente
@@ -72,12 +99,6 @@ class lcArbre(ParseTreeVisitor):
         condition_result = self.visitCondition(condition, df)
         return df[condition_result]
 
-    def visitCondition(self, ctx: lcParser.ConditionContext, df):
-        # Implementar lógica para evaluar la condición WHERE
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
-        boolean_expression_result = self.visitBooleanExpression(ctx.booleanExpression(), df)
-        return boolean_expression_result
 
     def visitBooleanExpression(self, ctx: lcParser.BooleanExpressionContext, df):
         # Implementar lógica para evaluar expresiones booleanas

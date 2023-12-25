@@ -1,1 +1,1 @@
-SELECT * FROM countries WHERE region_id=1;
+SELECT first_name,department_name FROM employees INNER JOIN departments on department_id=department_id inner join jobs on job_id=job_id;
