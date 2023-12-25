@@ -28,7 +28,7 @@ def main():
     # Ingresar la consulta directamente en el script
     #sql_file = "query.sql"
     
-    sql_query = st.text_area('Query', 'SELECT first_name,department_name FROM employees INNER JOIN departments on department_id=department_id;')
+    sql_query = st.text_area('Query', 'id := SELECT job_id FROM jobs;')
     # Imprimir la consulta
     #print("Consulta ingresada:", sql_query)
     
@@ -43,7 +43,7 @@ def main():
         lexer = lcLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
         parser = lcParser(token_stream)
-        tree = parser.query()
+        tree = parser.instruction()
 
         #   Crear un objeto Visitor y visitar el árbol
         arbol = lcArbre({
@@ -55,7 +55,7 @@ def main():
             'locations': locations,
             'regions': regions
         })
-        arbol.visitQuery(tree)
+        arbol.visitInstruction(tree)
 
         #arbol.printResult()
         st.markdown('### Resultat de la consulta')

@@ -1,6 +1,10 @@
 grammar lc;
 
 // Definición de reglas
+instruction: (assignment | query);
+
+assignment: ID ASSIG query;
+
 query: statement (ORDER BY orderByExpressionList)? SEMICOLON;
 
 statement: SELECT (selectItem (COMMA selectItem)*) FROM tableSource (WHERE condition)?;
@@ -80,5 +84,6 @@ NUMBER: [0-9]+('.'[0-9]+)?;
 STRING: '\'' ~'\''* '\'';
 TRUE: [Tt][Rr][Uu][Ee];
 FALSE: [Ff][Aa][Ll][Ss][Ee];
+ASSIG: ':=';
 // Ignorar espacios en blanco y saltos de línea
 WS: [ \t\r\n]+ -> skip;

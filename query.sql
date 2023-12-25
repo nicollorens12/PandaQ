@@ -1,1 +1,1 @@
-SELECT first_name FROM employees ;
+SELECT job_id FROM jobs;
