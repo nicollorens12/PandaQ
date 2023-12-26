@@ -64,7 +64,7 @@ def main():
             st.write(result_df)
             arbol.empty_instruction_type()
         elif arbol.instruction_type == "plot":
-            st.pyplot(result_df.plot.barh(stacked=True).figure)
+            st.line_chart(result_df)
             arbol.empty_instruction_type()
 
 if __name__ == '__main__':

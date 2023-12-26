@@ -15,7 +15,12 @@ class QVisitor(ParseTreeVisitor):
     def visitInstruction(self, ctx: lcParser.InstructionContext):
         if ctx.plot():
             self.instruction_type = "plot"
-            self.resultado = self.dataframes.get(self.visitPlot(ctx.plot()), pd.DataFrame())
+            table_name = self.visitPlot(ctx.plot())
+            original_df = self.dataframes.get(table_name, pd.DataFrame())
+
+            # Filtrar solo las columnas numéricas
+            numeric_columns_df = original_df.select_dtypes(include='number')
+            self.resultado = numeric_columns_df
         elif ctx.assignment():
             self.instruction_type = "assignment"
             self.visitAssignment(ctx.assignment())
