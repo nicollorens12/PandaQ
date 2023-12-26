@@ -114,7 +114,6 @@ class QVisitor(ParseTreeVisitor):
             column_name = self.visitColumnName(ctx.columnName(0)) 
     
             result_df = df[column_name].isin(subquery_df[column_name])
-        
             return result_df
     
         else:
@@ -123,8 +122,6 @@ class QVisitor(ParseTreeVisitor):
 
     def filterDataFrame(self, df, condition):
         condition_result = self.visitCondition(condition, df) 
-        print("CONDITION RESULT IS")
-        print(condition_result)
         return df[condition_result]
 
     def visitBooleanExpression(self, ctx: lcParser.BooleanExpressionContext, df):

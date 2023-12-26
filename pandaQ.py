@@ -35,11 +35,10 @@ def create_or_get_QVisitor():
 
 # Función principal
 def main():
-    st.title('PandaQ Nico Llorens')
-    st.text('Descripcion')
+    st.markdown("""## PandaQ Nico Llorens\nIngrese una consulta SQL en el cuadro de texto y presione el botón "Ejecutar Query" para obtener el resultado.\n\nAdemas, puede guardar consultas como tablas nuevas haciendo ```nombreTablaNueva := consulta;```.\n\nTambién puede hacer un gráfico (solo de los terminos númericos de la tabla) haciendo ```plot nombreTabla;```.\n\nTodas las instrucciones deben acabar con un ;.""")
 
-    # Ingresar la consulta directamente en el script
-    sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700);')
+    # Consulta SQL por defecto (ejemplo)
+    sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;')
 
     if st.button('Ejecutar Query'):
         script_dir = os.path.dirname(os.path.realpath(__file__))
