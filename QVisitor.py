@@ -18,7 +18,7 @@ class QVisitor(ParseTreeVisitor):
             table_name = self.visitPlot(ctx.plot())
             original_df = self.dataframes.get(table_name, pd.DataFrame())
 
-            # Filtrar solo las columnas numéricas
+            # Filtrar solo las columnas numericas ya que son las que se hace el plot
             numeric_columns_df = original_df.select_dtypes(include='number')
             self.resultado = numeric_columns_df
         elif ctx.assignment():
@@ -38,9 +38,6 @@ class QVisitor(ParseTreeVisitor):
         variable_name = ctx.ID().getText()
         self.visitQuery(ctx.query())
 
-        # Guardar el resultado en self.dataframes
-        #print("QUERY RESULT:",query_result)
-        #print("RESULTADO:", self.resultado)
         self.dataframes[variable_name] = self.resultado
 
     def visitQuery(self, ctx: lcParser.QueryContext):
@@ -49,9 +46,8 @@ class QVisitor(ParseTreeVisitor):
         if order_by_expression_list:
             order_columns = [self.visitOrderByExpression(expr) for expr in order_by_expression_list.orderByExpression()]
             self.resultado = self.visitWithOrderBy(ctx.statement(), order_columns)
-        elif ctx.statement():  # Asegúrate de que ctx.statement() no sea None
-            self.resultado = self.visit(ctx.statement())
-            
+        elif ctx.statement():
+            self.resultado = self.visit(ctx.statement())            
         else:
             print("No hay ORDER BY ni statement.")
 
@@ -101,6 +97,8 @@ class QVisitor(ParseTreeVisitor):
 
     def visitCondition(self, ctx: lcParser.ConditionContext, df):
         if ctx.booleanExpression():
+            print("WHERE NORMAL")
+
             # Si es una expresión booleana, evaluarla directamente
             return self.visitBooleanExpression(ctx.booleanExpression(), df)
         
@@ -109,21 +107,27 @@ class QVisitor(ParseTreeVisitor):
             column_name1 = self.visitColumnName(ctx.columnName(0))
             column_name2 = self.visitColumnName(ctx.columnName(1))
             return [column_name1, column_name2]
+        
+        elif ctx.columnName() and ctx.IN(): 
+            self.visitQuery(ctx.query())
+            subquery_df = self.resultado 
+            column_name = self.visitColumnName(ctx.columnName(0)) 
+    
+            result_df = df[column_name].isin(subquery_df[column_name])
+        
+            return result_df
+    
         else:
             print("Error: Condición no reconocida.")
             return None
 
     def filterDataFrame(self, df, condition):
-        # Implementar lógica para filtrar el DataFrame según la condición WHERE
-        # Puedes utilizar el paquete pandas para realizar el filtrado de manera eficiente
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
-        condition_result = self.visitCondition(condition, df)
+        condition_result = self.visitCondition(condition, df) 
+        print("CONDITION RESULT IS")
+        print(condition_result)
         return df[condition_result]
 
     def visitBooleanExpression(self, ctx: lcParser.BooleanExpressionContext, df):
-        # Implementar lógica para evaluar expresiones booleanas
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
         boolean_term_results = [self.visitBooleanTerm(term, df) for term in ctx.booleanTerm()]
         if ctx.OR():
             return boolean_term_results[0] | boolean_term_results[1]
@@ -131,9 +135,6 @@ class QVisitor(ParseTreeVisitor):
             return boolean_term_results[0]
 
     def visitBooleanTerm(self, ctx: lcParser.BooleanTermContext, df):
-        # Implementar lógica para evaluar términos booleanos
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
         boolean_factor_results = [self.visitBooleanFactor(factor, df) for factor in ctx.booleanFactor()]
         if ctx.AND():
             return boolean_factor_results[0] & boolean_factor_results[1]
@@ -141,9 +142,6 @@ class QVisitor(ParseTreeVisitor):
             return boolean_factor_results[0]
 
     def visitBooleanFactor(self, ctx: lcParser.BooleanFactorContext, df):
-        # Implementar lógica para evaluar factores booleanos
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
         boolean_primary_result = self.visitBooleanPrimary(ctx.booleanPrimary(), df)
         if ctx.NOT():
             return ~boolean_primary_result
@@ -151,22 +149,14 @@ class QVisitor(ParseTreeVisitor):
             return boolean_primary_result
 
     def visitBooleanPrimary(self, ctx: lcParser.BooleanPrimaryContext, df):
-        # Implementar lógica para evaluar primarios booleanos
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
         if ctx.comparisonExpression():
             return self.visitComparisonExpression(ctx.comparisonExpression(), df)
         else:
             return None
 
     def visitComparisonExpression(self, ctx: lcParser.ComparisonExpressionContext, df):
-        # Implementar lógica para evaluar expresiones de comparación
-        # Puedes utilizar funciones y operadores de pandas para realizar la evaluación
-        # Aquí un ejemplo básico, pero puedes ajustarlo según tus necesidades
-        
         # Obtener el nombre de la columna (primer operando)
         column_name = self.visitColumnName(ctx.columnName())
-        column_name2 = ctx.columnName().getText()
 
         # Obtener la expresión constante (segundo operando)
         constant_operand = None
@@ -218,15 +208,12 @@ class QVisitor(ParseTreeVisitor):
             missing_columns = [col for col in column_names if col not in df.columns]
             if missing_columns:
                 print(f"Error: Las siguientes columnas no existen en el DataFrame: {', '.join(missing_columns)}")
-                return pd.DataFrame()  # Devolvemos un DataFrame vacío
+                return pd.DataFrame() 
 
-            # Realizar la lógica para actualizar el DataFrame según la lista de columnas
             result_df = df[column_names]
 
         elif ctx.expression():
-            # Si hay una expresión, evaluarla y devolver el resultado
             result_df = self.visitExpression(ctx.expression(), df)
-            #result_df = series.to_frame()
             result_df.rename(columns={result_df.columns[0]: ctx.columnName().getText()}, inplace=True)
 
         else:
@@ -274,16 +261,12 @@ class QVisitor(ParseTreeVisitor):
     
     def visitWithOrderBy(self, ctx: lcParser.StatementContext, order_columns):
         result_df = self.visitStatement(ctx)
-        # Extraer los nombres de las columnas y las direcciones de ordenamiento
         order_columns_list = [order.split(" ") for order in order_columns]
         
-        # Extraer solo los nombres de las columnas para pasar a sort_values
         column_names = [col[0] for col in order_columns_list]
 
-        # Extraer las direcciones de ordenamiento o establecer ASC por defecto
         directions = [col[1].upper() if len(col) > 1 else 'ASC' for col in order_columns_list]
         
-        # Ordenar el DataFrame según las columnas y direcciones especificadas
         if not result_df.empty:
             result_df.sort_values(by=column_names, ascending=[dir == 'ASC' for dir in directions], inplace=True)
 

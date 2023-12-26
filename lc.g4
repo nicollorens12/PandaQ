@@ -1,13 +1,13 @@
 grammar lc;
 
 // Definición de reglas
-instruction: (plot | assignment | query);
+instruction: (plot | assignment | query) SEMICOLON;
 
-plot: PLOT tableName SEMICOLON;
+plot: PLOT tableName;
 
 assignment: ID ASSIG query;
 
-query: statement (ORDER BY orderByExpressionList)? SEMICOLON;
+query: statement (ORDER BY orderByExpressionList)?;
 
 statement: SELECT (selectItem (COMMA selectItem)*) FROM tableSource (WHERE condition)?;
 
@@ -38,6 +38,7 @@ orderByExpression: columnName (ASC | DESC)?;
 
 condition: booleanExpression
         | columnName EQUAL columnName
+        | columnName IN LPAREN query RPAREN
         ;
 
 booleanExpression: booleanTerm (OR booleanTerm)*;
@@ -68,6 +69,7 @@ INNER: [Ii][Nn][Nn][Ee][Rr];
 JOIN: [Jj][Oo][Ii][Nn];
 ON: [Oo][Nn];
 PLOT: [Pp][Ll][Oo][Tt];
+IN: [Ii][Nn];
 STAR: '*';
 COMMA: ',';
 SEMICOLON: ';';

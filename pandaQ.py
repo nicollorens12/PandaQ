@@ -39,7 +39,7 @@ def main():
     st.text('Descripcion')
 
     # Ingresar la consulta directamente en el script
-    sql_query = st.text_area('Query', 'q := select first_name,last_name, salary, salary *1.05 as new_salary from employees where department_id=5;')
+    sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700);')
 
     if st.button('Ejecutar Query'):
         script_dir = os.path.dirname(os.path.realpath(__file__))
