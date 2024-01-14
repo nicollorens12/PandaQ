@@ -6,11 +6,11 @@ from load_data import load_csv_file
 import pandas as pd
 import streamlit as st
 import os
-from QVisitor import QVisitor
+from lcArbre import lcArbre
 
-# Función para crear o recuperar la instancia de QVisitor desde la caché
+# Función para crear o recuperar la instancia de lcArbre desde la caché
 @st.cache_resource()
-def create_or_get_QVisitor():
+def create_or_get_lcArbre():
     # Cargar los DataFrames desde los archivos CSV
     countries = load_csv_file("countries.csv")
     departments = load_csv_file("departments.csv")
@@ -20,8 +20,8 @@ def create_or_get_QVisitor():
     locations = load_csv_file("locations.csv")
     regions = load_csv_file("regions.csv")
 
-    # Crear la instancia de QVisitor
-    arbol = QVisitor({
+    # Crear la instancia de lcArbre
+    arbol = lcArbre({
         'countries': countries,
         'departments': departments,
         'dependents': dependents,
@@ -35,10 +35,11 @@ def create_or_get_QVisitor():
 
 # Función principal
 def main():
-    st.markdown("""## PandaQ Nico Llorens\nIngrese una consulta SQL en el cuadro de texto y presione el botón "Ejecutar Query" para obtener el resultado.\n\nAdemas, puede guardar consultas como tablas nuevas haciendo ```nombreTablaNueva := consulta;```.\n\nTambién puede hacer un gráfico (solo de los terminos númericos de la tabla) haciendo ```plot nombreTabla;```.\n\nTodas las instrucciones deben acabar con un ;.""")
+    st.title('PandaQ Nico Llorens')
+    st.text('Descripcion')
 
-    # Consulta SQL por defecto (ejemplo)
-    sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;')
+    # Ingresar la consulta directamente en el script
+    sql_query = st.text_area('Query', 'id := SELECT job_id FROM jobs;')
 
     if st.button('Ejecutar Query'):
         script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -50,21 +51,35 @@ def main():
         input_stream = FileStream(sql_filepath)
         lexer = lcLexer(input_stream)
         token_stream = CommonTokenStream(lexer)
-        parser = lcParser(token_stream) 
+        parser = lcParser(token_stream)
         tree = parser.instruction()
 
-        # Obtener la instancia de QVisitor desde la caché
-        arbol = create_or_get_QVisitor()
+        # Obtener la instancia de lcArbre desde la caché
+        arbol = create_or_get_lcArbre()
 
         # Visitar el árbol y realizar las operaciones
         arbol.visitInstruction(tree)
+
+        st.markdown('### Resultat de la consulta')
         result_df = arbol.get_result()
-        if arbol.instruction_type == "assignment" or arbol.instruction_type == "query":
-            st.write(result_df)
-            arbol.empty_instruction_type()
-        elif arbol.instruction_type == "plot":
-            st.line_chart(result_df)
-            arbol.empty_instruction_type()
+        st.write(result_df)
 
 if __name__ == '__main__':
     main()
+
+def load_csv_file(filename):
+    csv_directory = "db"
+    filepath = os.path.join(csv_directory, filename)
+
+    try:
+        df = pd.read_csv(filepath)
+        return df
+    except FileNotFoundError:
+        print(f"El archivo '{filename}' no fue encontrado en '{csv_directory}'.")
+        return None
+    except pd.errors.EmptyDataError:
+        print(f"El archivo '{filename}' está vacío.")
+        return None
+    except pd.errors.ParserError:
+        print(f"Error al analizar el archivo '{filename}'. Asegúrate de que tenga una estructura válida.")
+        return None
