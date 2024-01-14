@@ -1,1 +1,1 @@
-select employee_id, first_name, last_name from employees where department_id in (select department_id from departments  inner join jobs on job_id=job_id  where location_id = 1700) order by first_name, last_name;
+select * from employee order by first_name;

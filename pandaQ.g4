@@ -9,10 +9,13 @@ assignment: ID ASSIG query;
 
 query: statement (ORDER BY orderByExpressionList)?;
 
-statement: SELECT (selectItem (COMMA selectItem)*) FROM tableSource (WHERE condition)?;
+statement: SELECT (all | selection) FROM tableSource (WHERE condition)?;
 
-selectItem: STAR                                #selectItemStar
-          | columnNameList                      #selectItemColumnNameList
+all: STAR;                                      
+
+selection: selectItem (COMMA selectItem)*;      
+
+selectItem: columnName                          #selectItemColumnName
           | expression AS columnName            #selectItemAS
           ;
 
@@ -23,8 +26,6 @@ expression: NUMBER                              #expressionNumber
           | expression MINUS expression         #expressionAritmetic
           | columnName                          #expressionColumnName
           ;
-
-columnNameList: columnName (COMMA columnName)*;
 
 columnName: ID;
 

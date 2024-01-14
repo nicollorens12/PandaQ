@@ -10,68 +10,67 @@ else:
 
 def serializedATN():
     return [
-        4,1,37,185,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,37,184,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
-        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,1,0,1,0,1,0,3,
-        0,42,8,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,2,1,3,1,3,1,3,1,3,3,3,
-        57,8,3,1,4,1,4,1,4,1,4,5,4,63,8,4,10,4,12,4,66,9,4,1,4,1,4,1,4,1,
-        4,3,4,72,8,4,1,5,1,5,1,5,1,5,1,5,1,5,3,5,80,8,5,1,6,1,6,1,6,3,6,
-        85,8,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,5,6,99,8,
-        6,10,6,12,6,102,9,6,1,7,1,7,1,7,5,7,107,8,7,10,7,12,7,110,9,7,1,
-        8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,1,9,5,9,121,8,9,10,9,12,9,124,9,9,
-        1,10,1,10,1,11,1,11,1,11,5,11,131,8,11,10,11,12,11,134,9,11,1,12,
-        1,12,3,12,138,8,12,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,1,13,
-        1,13,1,13,3,13,151,8,13,1,14,1,14,1,14,5,14,156,8,14,10,14,12,14,
-        159,9,14,1,15,1,15,1,15,5,15,164,8,15,10,15,12,15,167,9,15,1,16,
-        3,16,170,8,16,1,16,1,16,1,17,1,17,1,17,1,17,1,17,3,17,179,8,17,1,
-        18,1,18,1,18,1,18,1,18,0,1,12,19,0,2,4,6,8,10,12,14,16,18,20,22,
-        24,26,28,30,32,34,36,0,3,1,0,6,7,1,0,25,30,1,0,32,35,187,0,41,1,
-        0,0,0,2,45,1,0,0,0,4,48,1,0,0,0,6,52,1,0,0,0,8,58,1,0,0,0,10,79,
-        1,0,0,0,12,84,1,0,0,0,14,103,1,0,0,0,16,111,1,0,0,0,18,113,1,0,0,
-        0,20,125,1,0,0,0,22,127,1,0,0,0,24,135,1,0,0,0,26,150,1,0,0,0,28,
-        152,1,0,0,0,30,160,1,0,0,0,32,169,1,0,0,0,34,178,1,0,0,0,36,180,
-        1,0,0,0,38,42,3,2,1,0,39,42,3,4,2,0,40,42,3,6,3,0,41,38,1,0,0,0,
-        41,39,1,0,0,0,41,40,1,0,0,0,42,43,1,0,0,0,43,44,5,19,0,0,44,1,1,
-        0,0,0,45,46,5,15,0,0,46,47,3,20,10,0,47,3,1,0,0,0,48,49,5,31,0,0,
-        49,50,5,36,0,0,50,51,3,6,3,0,51,5,1,0,0,0,52,56,3,8,4,0,53,54,5,
-        4,0,0,54,55,5,5,0,0,55,57,3,22,11,0,56,53,1,0,0,0,56,57,1,0,0,0,
-        57,7,1,0,0,0,58,59,5,1,0,0,59,64,3,10,5,0,60,61,5,18,0,0,61,63,3,
-        10,5,0,62,60,1,0,0,0,63,66,1,0,0,0,64,62,1,0,0,0,64,65,1,0,0,0,65,
-        67,1,0,0,0,66,64,1,0,0,0,67,68,5,2,0,0,68,71,3,18,9,0,69,70,5,8,
-        0,0,70,72,3,26,13,0,71,69,1,0,0,0,71,72,1,0,0,0,72,9,1,0,0,0,73,
-        80,5,17,0,0,74,80,3,14,7,0,75,76,3,12,6,0,76,77,5,3,0,0,77,78,3,
-        16,8,0,78,80,1,0,0,0,79,73,1,0,0,0,79,74,1,0,0,0,79,75,1,0,0,0,80,
-        11,1,0,0,0,81,82,6,6,-1,0,82,85,5,32,0,0,83,85,3,16,8,0,84,81,1,
-        0,0,0,84,83,1,0,0,0,85,100,1,0,0,0,86,87,10,5,0,0,87,88,5,17,0,0,
-        88,99,3,12,6,6,89,90,10,4,0,0,90,91,5,22,0,0,91,99,3,12,6,5,92,93,
-        10,3,0,0,93,94,5,23,0,0,94,99,3,12,6,4,95,96,10,2,0,0,96,97,5,24,
-        0,0,97,99,3,12,6,3,98,86,1,0,0,0,98,89,1,0,0,0,98,92,1,0,0,0,98,
-        95,1,0,0,0,99,102,1,0,0,0,100,98,1,0,0,0,100,101,1,0,0,0,101,13,
-        1,0,0,0,102,100,1,0,0,0,103,108,3,16,8,0,104,105,5,18,0,0,105,107,
-        3,16,8,0,106,104,1,0,0,0,107,110,1,0,0,0,108,106,1,0,0,0,108,109,
-        1,0,0,0,109,15,1,0,0,0,110,108,1,0,0,0,111,112,5,31,0,0,112,17,1,
-        0,0,0,113,122,3,20,10,0,114,115,5,12,0,0,115,116,5,13,0,0,116,117,
-        3,20,10,0,117,118,5,14,0,0,118,119,3,26,13,0,119,121,1,0,0,0,120,
-        114,1,0,0,0,121,124,1,0,0,0,122,120,1,0,0,0,122,123,1,0,0,0,123,
-        19,1,0,0,0,124,122,1,0,0,0,125,126,5,31,0,0,126,21,1,0,0,0,127,132,
-        3,24,12,0,128,129,5,18,0,0,129,131,3,24,12,0,130,128,1,0,0,0,131,
-        134,1,0,0,0,132,130,1,0,0,0,132,133,1,0,0,0,133,23,1,0,0,0,134,132,
-        1,0,0,0,135,137,3,16,8,0,136,138,7,0,0,0,137,136,1,0,0,0,137,138,
-        1,0,0,0,138,25,1,0,0,0,139,151,3,28,14,0,140,141,3,16,8,0,141,142,
-        5,25,0,0,142,143,3,16,8,0,143,151,1,0,0,0,144,145,3,16,8,0,145,146,
-        5,16,0,0,146,147,5,20,0,0,147,148,3,6,3,0,148,149,5,21,0,0,149,151,
-        1,0,0,0,150,139,1,0,0,0,150,140,1,0,0,0,150,144,1,0,0,0,151,27,1,
-        0,0,0,152,157,3,30,15,0,153,154,5,9,0,0,154,156,3,30,15,0,155,153,
-        1,0,0,0,156,159,1,0,0,0,157,155,1,0,0,0,157,158,1,0,0,0,158,29,1,
-        0,0,0,159,157,1,0,0,0,160,165,3,32,16,0,161,162,5,10,0,0,162,164,
-        3,32,16,0,163,161,1,0,0,0,164,167,1,0,0,0,165,163,1,0,0,0,165,166,
-        1,0,0,0,166,31,1,0,0,0,167,165,1,0,0,0,168,170,5,11,0,0,169,168,
-        1,0,0,0,169,170,1,0,0,0,170,171,1,0,0,0,171,172,3,34,17,0,172,33,
-        1,0,0,0,173,174,5,20,0,0,174,175,3,28,14,0,175,176,5,21,0,0,176,
-        179,1,0,0,0,177,179,3,36,18,0,178,173,1,0,0,0,178,177,1,0,0,0,179,
-        35,1,0,0,0,180,181,3,16,8,0,181,182,7,1,0,0,182,183,7,2,0,0,183,
-        37,1,0,0,0,17,41,56,64,71,79,84,98,100,108,122,132,137,150,157,165,
-        169,178
+        2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,1,0,
+        1,0,1,0,3,0,44,8,0,1,0,1,0,1,1,1,1,1,1,1,2,1,2,1,2,1,2,1,3,1,3,1,
+        3,1,3,3,3,59,8,3,1,4,1,4,1,4,3,4,64,8,4,1,4,1,4,1,4,1,4,3,4,70,8,
+        4,1,5,1,5,1,6,1,6,1,6,5,6,77,8,6,10,6,12,6,80,9,6,1,7,1,7,1,7,1,
+        7,1,7,3,7,87,8,7,1,8,1,8,1,8,3,8,92,8,8,1,8,1,8,1,8,1,8,1,8,1,8,
+        1,8,1,8,1,8,1,8,1,8,1,8,5,8,106,8,8,10,8,12,8,109,9,8,1,9,1,9,1,
+        10,1,10,1,10,1,10,1,10,1,10,1,10,5,10,120,8,10,10,10,12,10,123,9,
+        10,1,11,1,11,1,12,1,12,1,12,5,12,130,8,12,10,12,12,12,133,9,12,1,
+        13,1,13,3,13,137,8,13,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,
+        14,1,14,1,14,3,14,150,8,14,1,15,1,15,1,15,5,15,155,8,15,10,15,12,
+        15,158,9,15,1,16,1,16,1,16,5,16,163,8,16,10,16,12,16,166,9,16,1,
+        17,3,17,169,8,17,1,17,1,17,1,18,1,18,1,18,1,18,1,18,3,18,178,8,18,
+        1,19,1,19,1,19,1,19,1,19,0,1,16,20,0,2,4,6,8,10,12,14,16,18,20,22,
+        24,26,28,30,32,34,36,38,0,3,1,0,6,7,1,0,25,30,1,0,32,35,184,0,43,
+        1,0,0,0,2,47,1,0,0,0,4,50,1,0,0,0,6,54,1,0,0,0,8,60,1,0,0,0,10,71,
+        1,0,0,0,12,73,1,0,0,0,14,86,1,0,0,0,16,91,1,0,0,0,18,110,1,0,0,0,
+        20,112,1,0,0,0,22,124,1,0,0,0,24,126,1,0,0,0,26,134,1,0,0,0,28,149,
+        1,0,0,0,30,151,1,0,0,0,32,159,1,0,0,0,34,168,1,0,0,0,36,177,1,0,
+        0,0,38,179,1,0,0,0,40,44,3,2,1,0,41,44,3,4,2,0,42,44,3,6,3,0,43,
+        40,1,0,0,0,43,41,1,0,0,0,43,42,1,0,0,0,44,45,1,0,0,0,45,46,5,19,
+        0,0,46,1,1,0,0,0,47,48,5,15,0,0,48,49,3,22,11,0,49,3,1,0,0,0,50,
+        51,5,31,0,0,51,52,5,36,0,0,52,53,3,6,3,0,53,5,1,0,0,0,54,58,3,8,
+        4,0,55,56,5,4,0,0,56,57,5,5,0,0,57,59,3,24,12,0,58,55,1,0,0,0,58,
+        59,1,0,0,0,59,7,1,0,0,0,60,63,5,1,0,0,61,64,3,10,5,0,62,64,3,12,
+        6,0,63,61,1,0,0,0,63,62,1,0,0,0,64,65,1,0,0,0,65,66,5,2,0,0,66,69,
+        3,20,10,0,67,68,5,8,0,0,68,70,3,28,14,0,69,67,1,0,0,0,69,70,1,0,
+        0,0,70,9,1,0,0,0,71,72,5,17,0,0,72,11,1,0,0,0,73,78,3,14,7,0,74,
+        75,5,18,0,0,75,77,3,14,7,0,76,74,1,0,0,0,77,80,1,0,0,0,78,76,1,0,
+        0,0,78,79,1,0,0,0,79,13,1,0,0,0,80,78,1,0,0,0,81,87,3,18,9,0,82,
+        83,3,16,8,0,83,84,5,3,0,0,84,85,3,18,9,0,85,87,1,0,0,0,86,81,1,0,
+        0,0,86,82,1,0,0,0,87,15,1,0,0,0,88,89,6,8,-1,0,89,92,5,32,0,0,90,
+        92,3,18,9,0,91,88,1,0,0,0,91,90,1,0,0,0,92,107,1,0,0,0,93,94,10,
+        5,0,0,94,95,5,17,0,0,95,106,3,16,8,6,96,97,10,4,0,0,97,98,5,22,0,
+        0,98,106,3,16,8,5,99,100,10,3,0,0,100,101,5,23,0,0,101,106,3,16,
+        8,4,102,103,10,2,0,0,103,104,5,24,0,0,104,106,3,16,8,3,105,93,1,
+        0,0,0,105,96,1,0,0,0,105,99,1,0,0,0,105,102,1,0,0,0,106,109,1,0,
+        0,0,107,105,1,0,0,0,107,108,1,0,0,0,108,17,1,0,0,0,109,107,1,0,0,
+        0,110,111,5,31,0,0,111,19,1,0,0,0,112,121,3,22,11,0,113,114,5,12,
+        0,0,114,115,5,13,0,0,115,116,3,22,11,0,116,117,5,14,0,0,117,118,
+        3,28,14,0,118,120,1,0,0,0,119,113,1,0,0,0,120,123,1,0,0,0,121,119,
+        1,0,0,0,121,122,1,0,0,0,122,21,1,0,0,0,123,121,1,0,0,0,124,125,5,
+        31,0,0,125,23,1,0,0,0,126,131,3,26,13,0,127,128,5,18,0,0,128,130,
+        3,26,13,0,129,127,1,0,0,0,130,133,1,0,0,0,131,129,1,0,0,0,131,132,
+        1,0,0,0,132,25,1,0,0,0,133,131,1,0,0,0,134,136,3,18,9,0,135,137,
+        7,0,0,0,136,135,1,0,0,0,136,137,1,0,0,0,137,27,1,0,0,0,138,150,3,
+        30,15,0,139,140,3,18,9,0,140,141,5,25,0,0,141,142,3,18,9,0,142,150,
+        1,0,0,0,143,144,3,18,9,0,144,145,5,16,0,0,145,146,5,20,0,0,146,147,
+        3,6,3,0,147,148,5,21,0,0,148,150,1,0,0,0,149,138,1,0,0,0,149,139,
+        1,0,0,0,149,143,1,0,0,0,150,29,1,0,0,0,151,156,3,32,16,0,152,153,
+        5,9,0,0,153,155,3,32,16,0,154,152,1,0,0,0,155,158,1,0,0,0,156,154,
+        1,0,0,0,156,157,1,0,0,0,157,31,1,0,0,0,158,156,1,0,0,0,159,164,3,
+        34,17,0,160,161,5,10,0,0,161,163,3,34,17,0,162,160,1,0,0,0,163,166,
+        1,0,0,0,164,162,1,0,0,0,164,165,1,0,0,0,165,33,1,0,0,0,166,164,1,
+        0,0,0,167,169,5,11,0,0,168,167,1,0,0,0,168,169,1,0,0,0,169,170,1,
+        0,0,0,170,171,3,36,18,0,171,35,1,0,0,0,172,173,5,20,0,0,173,174,
+        3,30,15,0,174,175,5,21,0,0,175,178,1,0,0,0,176,178,3,38,19,0,177,
+        172,1,0,0,0,177,176,1,0,0,0,178,37,1,0,0,0,179,180,3,18,9,0,180,
+        181,7,1,0,0,181,182,7,2,0,0,182,39,1,0,0,0,17,43,58,63,69,78,86,
+        91,105,107,121,131,136,149,156,164,168,177
     ]
 
 class pandaQParser ( Parser ):
@@ -106,23 +105,24 @@ class pandaQParser ( Parser ):
     RULE_assignment = 2
     RULE_query = 3
     RULE_statement = 4
-    RULE_selectItem = 5
-    RULE_expression = 6
-    RULE_columnNameList = 7
-    RULE_columnName = 8
-    RULE_tableSource = 9
-    RULE_tableName = 10
-    RULE_orderByExpressionList = 11
-    RULE_orderByExpression = 12
-    RULE_condition = 13
-    RULE_booleanExpression = 14
-    RULE_booleanTerm = 15
-    RULE_booleanFactor = 16
-    RULE_booleanPrimary = 17
-    RULE_comparisonExpression = 18
+    RULE_all = 5
+    RULE_selection = 6
+    RULE_selectItem = 7
+    RULE_expression = 8
+    RULE_columnName = 9
+    RULE_tableSource = 10
+    RULE_tableName = 11
+    RULE_orderByExpressionList = 12
+    RULE_orderByExpression = 13
+    RULE_condition = 14
+    RULE_booleanExpression = 15
+    RULE_booleanTerm = 16
+    RULE_booleanFactor = 17
+    RULE_booleanPrimary = 18
+    RULE_comparisonExpression = 19
 
     ruleNames =  [ "instruction", "plot", "assignment", "query", "statement", 
-                   "selectItem", "expression", "columnNameList", "columnName", 
+                   "all", "selection", "selectItem", "expression", "columnName", 
                    "tableSource", "tableName", "orderByExpressionList", 
                    "orderByExpression", "condition", "booleanExpression", 
                    "booleanTerm", "booleanFactor", "booleanPrimary", "comparisonExpression" ]
@@ -215,25 +215,25 @@ class pandaQParser ( Parser ):
         self.enterRule(localctx, 0, self.RULE_instruction)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 41
+            self.state = 43
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [15]:
-                self.state = 38
+                self.state = 40
                 self.plot()
                 pass
             elif token in [31]:
-                self.state = 39
+                self.state = 41
                 self.assignment()
                 pass
             elif token in [1]:
-                self.state = 40
+                self.state = 42
                 self.query()
                 pass
             else:
                 raise NoViableAltException(self)
 
-            self.state = 43
+            self.state = 45
             self.match(pandaQParser.SEMICOLON)
         except RecognitionException as re:
             localctx.exception = re
@@ -276,9 +276,9 @@ class pandaQParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_plot)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 45
+            self.state = 47
             self.match(pandaQParser.PLOT)
-            self.state = 46
+            self.state = 48
             self.tableName()
         except RecognitionException as re:
             localctx.exception = re
@@ -324,11 +324,11 @@ class pandaQParser ( Parser ):
         self.enterRule(localctx, 4, self.RULE_assignment)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 48
-            self.match(pandaQParser.ID)
-            self.state = 49
-            self.match(pandaQParser.ASSIG)
             self.state = 50
+            self.match(pandaQParser.ID)
+            self.state = 51
+            self.match(pandaQParser.ASSIG)
+            self.state = 52
             self.query()
         except RecognitionException as re:
             localctx.exception = re
@@ -379,17 +379,17 @@ class pandaQParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 52
+            self.state = 54
             self.statement()
-            self.state = 56
+            self.state = 58
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==4:
-                self.state = 53
-                self.match(pandaQParser.ORDER)
-                self.state = 54
-                self.match(pandaQParser.BY)
                 self.state = 55
+                self.match(pandaQParser.ORDER)
+                self.state = 56
+                self.match(pandaQParser.BY)
+                self.state = 57
                 self.orderByExpressionList()
 
 
@@ -419,11 +419,12 @@ class pandaQParser ( Parser ):
             return self.getTypedRuleContext(pandaQParser.TableSourceContext,0)
 
 
-        def selectItem(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(pandaQParser.SelectItemContext)
-            else:
-                return self.getTypedRuleContext(pandaQParser.SelectItemContext,i)
+        def all_(self):
+            return self.getTypedRuleContext(pandaQParser.AllContext,0)
+
+
+        def selection(self):
+            return self.getTypedRuleContext(pandaQParser.SelectionContext,0)
 
 
         def WHERE(self):
@@ -432,12 +433,6 @@ class pandaQParser ( Parser ):
         def condition(self):
             return self.getTypedRuleContext(pandaQParser.ConditionContext,0)
 
-
-        def COMMA(self, i:int=None):
-            if i is None:
-                return self.getTokens(pandaQParser.COMMA)
-            else:
-                return self.getToken(pandaQParser.COMMA, i)
 
         def getRuleIndex(self):
             return pandaQParser.RULE_statement
@@ -458,36 +453,136 @@ class pandaQParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 58
+            self.state = 60
             self.match(pandaQParser.SELECT)
-
-            self.state = 59
-            self.selectItem()
-            self.state = 64
+            self.state = 63
             self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while _la==18:
-                self.state = 60
-                self.match(pandaQParser.COMMA)
+            token = self._input.LA(1)
+            if token in [17]:
                 self.state = 61
-                self.selectItem()
-                self.state = 66
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
+                self.all_()
+                pass
+            elif token in [31, 32]:
+                self.state = 62
+                self.selection()
+                pass
+            else:
+                raise NoViableAltException(self)
 
-            self.state = 67
+            self.state = 65
             self.match(pandaQParser.FROM)
-            self.state = 68
+            self.state = 66
             self.tableSource()
-            self.state = 71
+            self.state = 69
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==8:
-                self.state = 69
+                self.state = 67
                 self.match(pandaQParser.WHERE)
-                self.state = 70
+                self.state = 68
                 self.condition()
 
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class AllContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def STAR(self):
+            return self.getToken(pandaQParser.STAR, 0)
+
+        def getRuleIndex(self):
+            return pandaQParser.RULE_all
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAll" ):
+                return visitor.visitAll(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def all_(self):
+
+        localctx = pandaQParser.AllContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 10, self.RULE_all)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 71
+            self.match(pandaQParser.STAR)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class SelectionContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def selectItem(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(pandaQParser.SelectItemContext)
+            else:
+                return self.getTypedRuleContext(pandaQParser.SelectItemContext,i)
+
+
+        def COMMA(self, i:int=None):
+            if i is None:
+                return self.getTokens(pandaQParser.COMMA)
+            else:
+                return self.getToken(pandaQParser.COMMA, i)
+
+        def getRuleIndex(self):
+            return pandaQParser.RULE_selection
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSelection" ):
+                return visitor.visitSelection(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def selection(self):
+
+        localctx = pandaQParser.SelectionContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 12, self.RULE_selection)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 73
+            self.selectItem()
+            self.state = 78
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==18:
+                self.state = 74
+                self.match(pandaQParser.COMMA)
+                self.state = 75
+                self.selectItem()
+                self.state = 80
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -515,35 +610,19 @@ class pandaQParser ( Parser ):
 
 
 
-    class SelectItemStarContext(SelectItemContext):
+    class SelectItemColumnNameContext(SelectItemContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a pandaQParser.SelectItemContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
-        def STAR(self):
-            return self.getToken(pandaQParser.STAR, 0)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitSelectItemStar" ):
-                return visitor.visitSelectItemStar(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-    class SelectItemColumnNameListContext(SelectItemContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a pandaQParser.SelectItemContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def columnNameList(self):
-            return self.getTypedRuleContext(pandaQParser.ColumnNameListContext,0)
+        def columnName(self):
+            return self.getTypedRuleContext(pandaQParser.ColumnNameContext,0)
 
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitSelectItemColumnNameList" ):
-                return visitor.visitSelectItemColumnNameList(self)
+            if hasattr( visitor, "visitSelectItemColumnName" ):
+                return visitor.visitSelectItemColumnName(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -574,33 +653,26 @@ class pandaQParser ( Parser ):
     def selectItem(self):
 
         localctx = pandaQParser.SelectItemContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_selectItem)
+        self.enterRule(localctx, 14, self.RULE_selectItem)
         try:
-            self.state = 79
+            self.state = 86
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,4,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
             if la_ == 1:
-                localctx = pandaQParser.SelectItemStarContext(self, localctx)
+                localctx = pandaQParser.SelectItemColumnNameContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 73
-                self.match(pandaQParser.STAR)
+                self.state = 81
+                self.columnName()
                 pass
 
             elif la_ == 2:
-                localctx = pandaQParser.SelectItemColumnNameListContext(self, localctx)
-                self.enterOuterAlt(localctx, 2)
-                self.state = 74
-                self.columnNameList()
-                pass
-
-            elif la_ == 3:
                 localctx = pandaQParser.SelectItemASContext(self, localctx)
-                self.enterOuterAlt(localctx, 3)
-                self.state = 75
+                self.enterOuterAlt(localctx, 2)
+                self.state = 82
                 self.expression(0)
-                self.state = 76
+                self.state = 83
                 self.match(pandaQParser.AS)
-                self.state = 77
+                self.state = 84
                 self.columnName()
                 pass
 
@@ -697,11 +769,11 @@ class pandaQParser ( Parser ):
         _parentState = self.state
         localctx = pandaQParser.ExpressionContext(self, self._ctx, _parentState)
         _prevctx = localctx
-        _startState = 12
-        self.enterRecursionRule(localctx, 12, self.RULE_expression, _p)
+        _startState = 16
+        self.enterRecursionRule(localctx, 16, self.RULE_expression, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 84
+            self.state = 91
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [32]:
@@ -709,147 +781,85 @@ class pandaQParser ( Parser ):
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 82
+                self.state = 89
                 self.match(pandaQParser.NUMBER)
                 pass
             elif token in [31]:
                 localctx = pandaQParser.ExpressionColumnNameContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 83
+                self.state = 90
                 self.columnName()
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 100
+            self.state = 107
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 98
+                    self.state = 105
                     self._errHandler.sync(self)
-                    la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
+                    la_ = self._interp.adaptivePredict(self._input,7,self._ctx)
                     if la_ == 1:
                         localctx = pandaQParser.ExpressionAritmeticContext(self, pandaQParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 86
+                        self.state = 93
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 87
+                        self.state = 94
                         self.match(pandaQParser.STAR)
-                        self.state = 88
+                        self.state = 95
                         self.expression(6)
                         pass
 
                     elif la_ == 2:
                         localctx = pandaQParser.ExpressionAritmeticContext(self, pandaQParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 89
+                        self.state = 96
                         if not self.precpred(self._ctx, 4):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
-                        self.state = 90
+                        self.state = 97
                         self.match(pandaQParser.DIV)
-                        self.state = 91
+                        self.state = 98
                         self.expression(5)
                         pass
 
                     elif la_ == 3:
                         localctx = pandaQParser.ExpressionAritmeticContext(self, pandaQParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 92
+                        self.state = 99
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 93
+                        self.state = 100
                         self.match(pandaQParser.PLUS)
-                        self.state = 94
+                        self.state = 101
                         self.expression(4)
                         pass
 
                     elif la_ == 4:
                         localctx = pandaQParser.ExpressionAritmeticContext(self, pandaQParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 95
+                        self.state = 102
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 96
+                        self.state = 103
                         self.match(pandaQParser.MINUS)
-                        self.state = 97
+                        self.state = 104
                         self.expression(3)
                         pass
 
              
-                self.state = 102
-                self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,7,self._ctx)
-
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.unrollRecursionContexts(_parentctx)
-        return localctx
-
-
-    class ColumnNameListContext(ParserRuleContext):
-        __slots__ = 'parser'
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def columnName(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(pandaQParser.ColumnNameContext)
-            else:
-                return self.getTypedRuleContext(pandaQParser.ColumnNameContext,i)
-
-
-        def COMMA(self, i:int=None):
-            if i is None:
-                return self.getTokens(pandaQParser.COMMA)
-            else:
-                return self.getToken(pandaQParser.COMMA, i)
-
-        def getRuleIndex(self):
-            return pandaQParser.RULE_columnNameList
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitColumnNameList" ):
-                return visitor.visitColumnNameList(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-
-
-    def columnNameList(self):
-
-        localctx = pandaQParser.ColumnNameListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 14, self.RULE_columnNameList)
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 103
-            self.columnName()
-            self.state = 108
-            self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
-            while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                if _alt==1:
-                    self.state = 104
-                    self.match(pandaQParser.COMMA)
-                    self.state = 105
-                    self.columnName() 
-                self.state = 110
+                self.state = 109
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
 
@@ -858,7 +868,7 @@ class pandaQParser ( Parser ):
             self._errHandler.reportError(self, re)
             self._errHandler.recover(self, re)
         finally:
-            self.exitRule()
+            self.unrollRecursionContexts(_parentctx)
         return localctx
 
 
@@ -887,10 +897,10 @@ class pandaQParser ( Parser ):
     def columnName(self):
 
         localctx = pandaQParser.ColumnNameContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 16, self.RULE_columnName)
+        self.enterRule(localctx, 18, self.RULE_columnName)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 111
+            self.state = 110
             self.match(pandaQParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -955,27 +965,27 @@ class pandaQParser ( Parser ):
     def tableSource(self):
 
         localctx = pandaQParser.TableSourceContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 18, self.RULE_tableSource)
+        self.enterRule(localctx, 20, self.RULE_tableSource)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 113
+            self.state = 112
             self.tableName()
-            self.state = 122
+            self.state = 121
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==12:
-                self.state = 114
+                self.state = 113
                 self.match(pandaQParser.INNER)
-                self.state = 115
+                self.state = 114
                 self.match(pandaQParser.JOIN)
-                self.state = 116
+                self.state = 115
                 self.tableName()
-                self.state = 117
+                self.state = 116
                 self.match(pandaQParser.ON)
-                self.state = 118
+                self.state = 117
                 self.condition()
-                self.state = 124
+                self.state = 123
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1013,10 +1023,10 @@ class pandaQParser ( Parser ):
     def tableName(self):
 
         localctx = pandaQParser.TableNameContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 20, self.RULE_tableName)
+        self.enterRule(localctx, 22, self.RULE_tableName)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 125
+            self.state = 124
             self.match(pandaQParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -1062,21 +1072,21 @@ class pandaQParser ( Parser ):
     def orderByExpressionList(self):
 
         localctx = pandaQParser.OrderByExpressionListContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 22, self.RULE_orderByExpressionList)
+        self.enterRule(localctx, 24, self.RULE_orderByExpressionList)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 127
+            self.state = 126
             self.orderByExpression()
-            self.state = 132
+            self.state = 131
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==18:
-                self.state = 128
+                self.state = 127
                 self.match(pandaQParser.COMMA)
-                self.state = 129
+                self.state = 128
                 self.orderByExpression()
-                self.state = 134
+                self.state = 133
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1121,17 +1131,17 @@ class pandaQParser ( Parser ):
     def orderByExpression(self):
 
         localctx = pandaQParser.OrderByExpressionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 24, self.RULE_orderByExpression)
+        self.enterRule(localctx, 26, self.RULE_orderByExpression)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 135
+            self.state = 134
             self.columnName()
-            self.state = 137
+            self.state = 136
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==6 or _la==7:
-                self.state = 136
+                self.state = 135
                 _la = self._input.LA(1)
                 if not(_la==6 or _la==7):
                     self._errHandler.recoverInline(self)
@@ -1235,41 +1245,41 @@ class pandaQParser ( Parser ):
     def condition(self):
 
         localctx = pandaQParser.ConditionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 26, self.RULE_condition)
+        self.enterRule(localctx, 28, self.RULE_condition)
         try:
-            self.state = 150
+            self.state = 149
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,12,self._ctx)
             if la_ == 1:
                 localctx = pandaQParser.ConditionBooleanContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 139
+                self.state = 138
                 self.booleanExpression()
                 pass
 
             elif la_ == 2:
                 localctx = pandaQParser.ConditionEqualContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 140
+                self.state = 139
                 self.columnName()
-                self.state = 141
+                self.state = 140
                 self.match(pandaQParser.EQUAL)
-                self.state = 142
+                self.state = 141
                 self.columnName()
                 pass
 
             elif la_ == 3:
                 localctx = pandaQParser.ConditionInContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 144
+                self.state = 143
                 self.columnName()
-                self.state = 145
+                self.state = 144
                 self.match(pandaQParser.IN)
-                self.state = 146
+                self.state = 145
                 self.match(pandaQParser.LPAREN)
-                self.state = 147
+                self.state = 146
                 self.query()
-                self.state = 148
+                self.state = 147
                 self.match(pandaQParser.RPAREN)
                 pass
 
@@ -1318,21 +1328,21 @@ class pandaQParser ( Parser ):
     def booleanExpression(self):
 
         localctx = pandaQParser.BooleanExpressionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 28, self.RULE_booleanExpression)
+        self.enterRule(localctx, 30, self.RULE_booleanExpression)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 152
+            self.state = 151
             self.booleanTerm()
-            self.state = 157
+            self.state = 156
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==9:
-                self.state = 153
+                self.state = 152
                 self.match(pandaQParser.OR)
-                self.state = 154
+                self.state = 153
                 self.booleanTerm()
-                self.state = 159
+                self.state = 158
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1380,21 +1390,21 @@ class pandaQParser ( Parser ):
     def booleanTerm(self):
 
         localctx = pandaQParser.BooleanTermContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_booleanTerm)
+        self.enterRule(localctx, 32, self.RULE_booleanTerm)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 160
+            self.state = 159
             self.booleanFactor()
-            self.state = 165
+            self.state = 164
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==10:
-                self.state = 161
+                self.state = 160
                 self.match(pandaQParser.AND)
-                self.state = 162
+                self.state = 161
                 self.booleanFactor()
-                self.state = 167
+                self.state = 166
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1436,19 +1446,19 @@ class pandaQParser ( Parser ):
     def booleanFactor(self):
 
         localctx = pandaQParser.BooleanFactorContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_booleanFactor)
+        self.enterRule(localctx, 34, self.RULE_booleanFactor)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
+            self.state = 168
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==11:
-                self.state = 168
+                self.state = 167
                 self.match(pandaQParser.NOT)
 
 
-            self.state = 171
+            self.state = 170
             self.booleanPrimary()
         except RecognitionException as re:
             localctx.exception = re
@@ -1518,25 +1528,25 @@ class pandaQParser ( Parser ):
     def booleanPrimary(self):
 
         localctx = pandaQParser.BooleanPrimaryContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 34, self.RULE_booleanPrimary)
+        self.enterRule(localctx, 36, self.RULE_booleanPrimary)
         try:
-            self.state = 178
+            self.state = 177
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [20]:
                 localctx = pandaQParser.BooleanPrimaryBooleanContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 173
+                self.state = 172
                 self.match(pandaQParser.LPAREN)
-                self.state = 174
+                self.state = 173
                 self.booleanExpression()
-                self.state = 175
+                self.state = 174
                 self.match(pandaQParser.RPAREN)
                 pass
             elif token in [31]:
                 localctx = pandaQParser.BooleanPrimaryComparisonContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 177
+                self.state = 176
                 self.comparisonExpression()
                 pass
             else:
@@ -1607,20 +1617,20 @@ class pandaQParser ( Parser ):
     def comparisonExpression(self):
 
         localctx = pandaQParser.ComparisonExpressionContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 36, self.RULE_comparisonExpression)
+        self.enterRule(localctx, 38, self.RULE_comparisonExpression)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 180
+            self.state = 179
             self.columnName()
-            self.state = 181
+            self.state = 180
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 2113929216) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-            self.state = 182
+            self.state = 181
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 64424509440) != 0)):
                 self._errHandler.recoverInline(self)
@@ -1640,7 +1650,7 @@ class pandaQParser ( Parser ):
     def sempred(self, localctx:RuleContext, ruleIndex:int, predIndex:int):
         if self._predicates == None:
             self._predicates = dict()
-        self._predicates[6] = self.expression_sempred
+        self._predicates[8] = self.expression_sempred
         pred = self._predicates.get(ruleIndex, None)
         if pred is None:
             raise Exception("No predicate with index:" + str(ruleIndex))

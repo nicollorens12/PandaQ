@@ -12,6 +12,7 @@ class QVisitor(ParseTreeVisitor):
         self.resultado = None
         self.instruction_type = None 
     
+    #Version actualizada
     def visitInstruction(self, ctx: lcParser.InstructionContext):
         if ctx.plot():
             self.instruction_type = "plot"
