@@ -2,11 +2,29 @@ from antlr4 import FileStream, CommonTokenStream
 from lcLexer import lcLexer
 from lcParser import lcParser
 from lcVisitor import lcVisitor
-from load_data import load_csv_file
 import pandas as pd
 import streamlit as st
 import os
 from QVisitor import QVisitor
+import os
+
+def load_csv_file(filename):
+    csv_directory = "db"
+    filepath = os.path.join(csv_directory, filename)
+
+    try:
+        df = pd.read_csv(filepath)
+        return df
+    except FileNotFoundError:
+        print(f"El archivo '{filename}' no fue encontrado en '{csv_directory}'.")
+        return None
+    except pd.errors.EmptyDataError:
+        print(f"El archivo '{filename}' está vacío.")
+        return None
+    except pd.errors.ParserError:
+        print(f"Error al analizar el archivo '{filename}'. Asegúrate de que tenga una estructura válida.")
+        return None
+
 
 # Función para crear o recuperar la instancia de QVisitor desde la caché
 @st.cache_resource()
@@ -45,6 +63,7 @@ def main():
         sql_filepath = os.path.join(script_dir, "query.sql")
         with open(sql_filepath, "w") as file:
             file.write(sql_query)
+
 
         # Analizar la consulta SQL desde el archivo
         input_stream = FileStream(sql_filepath)
