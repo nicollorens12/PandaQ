@@ -163,7 +163,7 @@ class pandaQVisitor(ParseTreeVisitor):
     def visitConditionBoolean(self, ctx:pandaQParser.ConditionBooleanContext):
         self.visitChildren(ctx)
         aux = self.resultado.copy()
-        self.resultado = aux[self.where['aux_col']]
+        self.resultado = aux[self.where['aux_col']] #Creo una tabla booleana final para filtrar la tabla original
         
 
     # Visit a parse tree produced by pandaQParser#conditionEqual.
@@ -192,14 +192,13 @@ class pandaQVisitor(ParseTreeVisitor):
     # Visit a parse tree produced by pandaQParser#booleanExpression.
     def visitBooleanExpression(self, ctx:pandaQParser.BooleanExpressionContext):
         self.visitChildren(ctx)
-        self.where['aux_col'] = self.where.any(axis=1)
-        # Conservar solo la nueva columna y descartar las otras
+        self.where['aux_col'] = self.where.any(axis=1) #Junte de las columnas con logica OR
         self.where = self.where[['aux_col']]
         
     # Visit a parse tree produced by pandaQParser#booleanTerm.
     def visitBooleanTerm(self, ctx:pandaQParser.BooleanTermContext):
         self.visitChildren(ctx)
-        self.where['aux_col'] = self.where.all(axis=1)
+        self.where['aux_col'] = self.where.all(axis=1) #Junte de las columnas con logica AND
         self.where = self.where[['aux_col']]
 
         
@@ -215,7 +214,6 @@ class pandaQVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by pandaQParser#booleanPrimaryBoolean.
     def visitBooleanPrimaryBoolean(self, ctx:pandaQParser.BooleanPrimaryBooleanContext):
-        #FALTA
         return self.visitChildren(ctx)
 
 

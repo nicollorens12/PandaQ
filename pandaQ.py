@@ -23,11 +23,8 @@ def load_csv_file(filename):
         print(f"Error al analizar el archivo '{filename}'. Asegúrate de que tenga una estructura válida.")
         return None
 
-
-# Función para crear o recuperar la instancia de lcArbre desde la caché
 @st.cache_resource()
 def create_or_get_QVisitor():
-    # Cargar los DataFrames desde los archivos CSV
     countries = load_csv_file("countries.csv")
     departments = load_csv_file("departments.csv")
     dependents = load_csv_file("dependents.csv")
@@ -36,7 +33,6 @@ def create_or_get_QVisitor():
     locations = load_csv_file("locations.csv")
     regions = load_csv_file("regions.csv")
 
-    # Crear la instancia de QVisitor
     visitor = pandaQVisitor({
         'countries': countries,
         'departments': departments,
@@ -49,11 +45,9 @@ def create_or_get_QVisitor():
 
     return visitor
 
-# Función principal
 def main():
     st.markdown("""## PandaQ Nico Llorens\nIngrese una consulta SQL en el cuadro de texto y presione el botón "Ejecutar Query" para obtener el resultado.\n\nAdemas, puede guardar consultas como tablas nuevas haciendo ```nombreTablaNueva := consulta;```.\n\nTambién puede hacer un gráfico (solo de los terminos númericos de la tabla) haciendo ```plot nombreTabla;```.\n\nTodas las instrucciones deben acabar con un ;.""")
 
-    # Consulta SQL por defecto (ejemplo) select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;
     sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;')
 
     if st.button('Ejecutar Query'):
@@ -62,7 +56,6 @@ def main():
         with open(sql_filepath, "w") as file:
             file.write(sql_query)
 
-
         # Analizar la consulta SQL desde el archivo
         input_stream = FileStream(sql_filepath)
         lexer = pandaQLexer(input_stream)
@@ -70,10 +63,8 @@ def main():
         parser = pandaQParser(token_stream) 
         tree = parser.instruction()
 
-        # Obtener la instancia de QVisitor desde la caché
         visitor = create_or_get_QVisitor()
 
-        # Visitar el árbol y realizar las operaciones
         visitor.visitInstruction(tree)
         result_df = visitor.get_result()
         if visitor.instruction_type == "assignment" or visitor.instruction_type == "query":
