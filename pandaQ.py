@@ -1,7 +1,7 @@
 from antlr4 import FileStream, CommonTokenStream
 from pandaQLexer import pandaQLexer
 from pandaQParser import pandaQParser
-from pandaQVisitor import pandaQVisitor
+from pandaQEvaluator import pandaQEvaluator
 import pandas as pd
 import streamlit as st
 import os
@@ -33,7 +33,7 @@ def create_or_get_QVisitor():
     locations = load_csv_file("locations.csv")
     regions = load_csv_file("regions.csv")
 
-    visitor = pandaQVisitor({
+    visitor = pandaQEvaluator({
         'countries': countries,
         'departments': departments,
         'dependents': dependents,
