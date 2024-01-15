@@ -53,7 +53,7 @@ def create_or_get_QVisitor():
 def main():
     st.markdown("""## PandaQ Nico Llorens\nIngrese una consulta SQL en el cuadro de texto y presione el botón "Ejecutar Query" para obtener el resultado.\n\nAdemas, puede guardar consultas como tablas nuevas haciendo ```nombreTablaNueva := consulta;```.\n\nTambién puede hacer un gráfico (solo de los terminos númericos de la tabla) haciendo ```plot nombreTabla;```.\n\nTodas las instrucciones deben acabar con un ;.""")
 
-    # Consulta SQL por defecto (ejemplo)
+    # Consulta SQL por defecto (ejemplo) select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;
     sql_query = st.text_area('Query', 'select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;')
 
     if st.button('Ejecutar Query'):
@@ -78,10 +78,11 @@ def main():
         result_df = visitor.get_result()
         if visitor.instruction_type == "assignment" or visitor.instruction_type == "query":
             st.write(result_df)
-            visitor.empty_instruction_type()
+            visitor.reset()
+            
         elif visitor.instruction_type == "plot":
             st.line_chart(result_df)
-            visitor.empty_instruction_type()
+            visitor.reset()
 
 if __name__ == '__main__':
     main()

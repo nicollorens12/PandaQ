@@ -1,1 +1,1 @@
-select * from employee order by first_name;
+plot employees;

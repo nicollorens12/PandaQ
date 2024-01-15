@@ -5,7 +5,7 @@ instruction: (plot | assignment | query) SEMICOLON;
 
 plot: PLOT tableName;
 
-assignment: ID ASSIG query;
+assignment: tableName ASSIG query;
 
 query: statement (ORDER BY orderByExpressionList)?;
 
@@ -19,17 +19,18 @@ selectItem: columnName                          #selectItemColumnName
           | expression AS columnName            #selectItemAS
           ;
 
-expression: NUMBER                              #expressionNumber
-          | expression STAR expression          #expressionAritmetic
-          | expression DIV expression           #expressionAritmetic
-          | expression PLUS expression          #expressionAritmetic
-          | expression MINUS expression         #expressionAritmetic
-          | columnName                          #expressionColumnName
+expression: columnName                      #expressionColumnName
+          | expression STAR NUMBER          #expressionAritmetic
+          | expression DIV NUMBER           #expressionAritmetic
+          | expression PLUS NUMBER          #expressionAritmetic
+          | expression MINUS NUMBER         #expressionAritmetic
           ;
 
 columnName: ID;
 
-tableSource: tableName (INNER JOIN tableName ON condition)*;
+tableSource: tableName                                          #tableSourceSimple
+           | tableName (INNER JOIN tableName ON condition)*     #tableSourceJoin
+           ;
 
 tableName: ID;
 
@@ -52,7 +53,13 @@ booleanPrimary: '(' booleanExpression ')'       #booleanPrimaryBoolean
              | comparisonExpression             #booleanPrimaryComparison
              ;
 
-comparisonExpression: columnName (EQUAL | NOT_EQUAL | LESS | LESS_OR_EQUAL | GREATER | GREATER_OR_EQUAL) (NUMBER | TRUE | FALSE | STRING);
+comparisonExpression: columnName (EQUAL | NOT_EQUAL | LESS | LESS_OR_EQUAL | GREATER | GREATER_OR_EQUAL) value;
+
+value: NUMBER           #valueNumber
+     | TRUE             #valueTrue
+     | FALSE            #valueFalse
+     | '\'' ID '\''     #valueString
+     ;  
 
 // Tokens
 SELECT: [Ss][Ee][Ll][Ee][Cc][Tt];
@@ -87,7 +94,6 @@ GREATER: '>';
 GREATER_OR_EQUAL: '>=';
 ID: [a-zA-Z_][a-zA-Z0-9_]*;
 NUMBER: [0-9]+('.'[0-9]+)?;
-STRING: '\'' ~'\''* '\'';
 TRUE: [Tt][Rr][Uu][Ee];
 FALSE: [Ff][Aa][Ll][Ss][Ee];
 ASSIG: ':=';
