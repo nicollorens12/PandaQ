@@ -1,4 +1,4 @@
-# Practica LP Q1 2023-2024 PandaQ
+# Pràctica LP Q1 2023-2024 PandaQ
 Autor: Nicolas Llorens Somalo
 
 ## Objectius
