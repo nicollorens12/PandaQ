@@ -1,1 +1,0 @@
-select employee_id, first_name, last_name from employees where department_id in (select department_id from departments where location_id = 1700) order by first_name, last_name;
