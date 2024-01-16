@@ -2,7 +2,7 @@
 Autor: Nicolas Llorens Somalo
 
 ## Objectius
-Aquesta pràctica consisteix en implementar un petit intèrpret anomenat PandaQ amb les característiques principals següents:
+Aquesta pràctica consisteix en implementar un petit intèrpret anomenat PandaQ en Python3 amb les característiques principals següents:
 
 - Entrada: subconjunt de consultes SQL (només consultes **SELECT**)
 
@@ -23,6 +23,11 @@ Per executar aquesta pràctica caldra ademes de Python tindre instalada la llibr
 pip install streamlit
 ```
 
+Ademés, a partir de `pandaQ.g4` haurem de crear el lexer i parser corresponent, també necesitarem ajustar aquests perque treballin amb un visitador i siguin de Python. Tot això ho farem amb aquesta comanda:
+```bash
+antlr4 -Dlanguage=Python3 -no-listener -visitor exprs.g4
+```
+
 ## Execució
 
 Per executar el programa s'ha de escriure en terminal:
@@ -30,4 +35,4 @@ Per executar el programa s'ha de escriure en terminal:
 streamlit run pandaQ.py
 ```
 
-El programa fa us de un arxiu `query.sql` que es crea sol per gestionar les consultes del usuari.
+El programa fa us de un arxiu `query.sql` que es crea automaticament per gestionar les consultes del usuari.
