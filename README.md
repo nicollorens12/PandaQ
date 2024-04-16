@@ -25,7 +25,7 @@ pip install streamlit
 
 Ademés, a partir de `pandaQ.g4` haurem de crear el lexer i parser corresponent, també necesitarem ajustar aquests perque treballin amb un visitador i siguin de Python. Tot això ho farem amb aquesta comanda:
 ```bash
-antlr4 -Dlanguage=Python3 -no-listener -visitor exprs.g4
+antlr4 -Dlanguage=Python3 -no-listener -visitor pandaQ.g4
 ```
 
 ## Execució
